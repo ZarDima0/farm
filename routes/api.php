@@ -4,6 +4,7 @@ use App\Http\Controllers\Building\BuildingController;
 use App\Http\Controllers\FarmLand\FarmLandController;
 use App\Http\Controllers\Plant\PlantController;
 use App\Http\Controllers\Tree\TreeController;
+use http\Client\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\User\AuthController;
 
@@ -13,25 +14,29 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::prefix('farmland')
+Route::middleware(['auth:sanctum'])
+    ->prefix('farmland')
     ->group(function () {
-        Route::middleware(['auth:sanctum'])->post('', [FarmLandController::class, 'create']);
-        Route::middleware(['auth:sanctum'])->get('', [FarmLandController::class, 'getList']);
+        Route::post('', [FarmLandController::class, 'create']);
+        Route::get('', [FarmLandController::class, 'getList']);
     });
 
-Route::prefix('plant')
+Route::middleware(['auth:sanctum'])
+    ->prefix('plant')
     ->group(function () {
-        Route::middleware(['auth:sanctum'])->post('', [PlantController::class, 'getList']);
+        Route::post('', [PlantController::class, 'getList']);
     });
 
-Route::prefix('building')
+Route::middleware(['auth:sanctum'])
+    ->prefix('building')
     ->group(function () {
-        Route::middleware(['auth:sanctum'])->get('', [BuildingController::class, 'getList']);
+        Route::get('', [BuildingController::class, 'getList']);
     });
 
-Route::prefix('tree')
+Route::middleware(['auth:sanctum'])
+    ->prefix('tree')
     ->group(function () {
-        Route::middleware(['auth:sanctum'])->get('', [TreeController::class, 'getList']);
+        Route::get('', [TreeController::class, 'getList']);
     });
 
 Route::post('/user/register',[AuthController::class,'register'])->name('user.register');
