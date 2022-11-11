@@ -17,7 +17,6 @@ class PlantsSeeder extends Seeder
     {
         $plant = [
             [   'name' => 'Пшеница',
-                'fruit' => 'Зерно пшеницы',
                 'is_harvestable' => 1,
                 'is_perennial' => 0,
             ],
