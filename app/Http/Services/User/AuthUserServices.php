@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Services\User;
 
+use App\Events\EventCreateFarmLand;
 use App\Models\User;
 
 class AuthUserServices
@@ -12,13 +13,19 @@ class AuthUserServices
     public function register($request)
     {
         $input = [
-            'name' => $request['email'],
+            'name' => $request['name'],
             'email' => $request['email'],
             'password' => bcrypt($request['password']),
         ];
         $user = User::create($input);
+
+        $createFarmLand = event(new EventCreateFarmLand($user));
+
         $token = $user->createToken($request['email'])->plainTextToken;
-        return $token;
+        return [
+            'farmLand' => $createFarmLand,
+            'token' => $token
+        ];
     }
 
     /**
@@ -33,3 +40,55 @@ class AuthUserServices
         return $user;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
