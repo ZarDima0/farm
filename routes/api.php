@@ -24,7 +24,7 @@ Route::middleware(['auth:sanctum'])
 Route::middleware(['auth:sanctum'])
     ->prefix('plant')
     ->group(function () {
-        Route::post('', [PlantController::class, 'getList']);
+        Route::get('', [PlantController::class, 'getList']);
     });
 
 Route::middleware(['auth:sanctum'])

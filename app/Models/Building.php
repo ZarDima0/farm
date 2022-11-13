@@ -7,7 +7,43 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property string $name
+ * @property int $tiles
+ */
 class Building extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTiles(): int
+    {
+        return $this->tiles;
+    }
+
+    /**
+     * @param int $tiles
+     */
+    public function setTiles(int $tiles): void
+    {
+        $this->tiles = $tiles;
+    }
 }

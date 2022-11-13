@@ -13,6 +13,14 @@ class BuildingResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $buildings = [];
+        foreach ($this->resource as $building) {
+            $buildings[] = [
+                'id' => $building->id,
+                'name' => $building->getName(),
+                'tiles' => $building->getTiles(),
+            ];
+        }
+        return $buildings;
     }
 }
