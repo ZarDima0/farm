@@ -1,10 +1,13 @@
 <?php
 namespace App\Http\Resources\Tree;
 
+use App\Models\Tree;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TreeResource extends JsonResource
 {
+    /** @var Tree */
+    public $resource;
     /**
     * Transform the resource into an array.
     *
@@ -13,6 +16,16 @@ class TreeResource extends JsonResource
     */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $trees = [];
+        foreach ($this->resource as $tree) {
+            $trees[] = [
+                'id' => $tree->id,
+                'name' => $tree->getName(),
+                'tiles' => $tree->getTiles(),
+                'height' => $tree->getHeight(),
+                'crop' => $tree->crop(),
+            ];
+        }
+        return $trees;
     }
 }

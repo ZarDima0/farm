@@ -1,10 +1,15 @@
 <?php
 namespace App\Http\Resources\FarmLand;
 
+use App\Models\FarmLand;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class FarmLandResource extends JsonResource
 {
+
+    /** @var FarmLand */
+    public $resource;
+
     /**
     * Transform the resource into an array.
     *
@@ -13,6 +18,14 @@ class FarmLandResource extends JsonResource
     */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $farmLands = [];
+        foreach ($this->resource as $farmLand) {
+            $farmLands[] = [
+                'id' => $farmLand->id,
+                'name' => $farmLand->getName(),
+                'tiles' => $farmLand->getTiles(),
+            ];
+        }
+        return $farmLands;
     }
 }

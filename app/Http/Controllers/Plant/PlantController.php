@@ -2,22 +2,19 @@
 namespace App\Http\Controllers\Plant;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\FarmLand\FarmLandCreateRequest;
 use App\Http\Requests\Plant\PlantGetRequest;
-use App\Http\Resources\FarmLand\FarmLandResource;
-use App\Http\Services\FarmLand\FarmLandServices;
+use App\Http\Resources\Plant\PlantResource;
 use App\Http\Services\Plant\PlantServices;
-use Illuminate\Support\Facades\Auth;
 
 class PlantController extends Controller
 {
     /**
      * @param PlantGetRequest $request
      * @param PlantServices $plantServices
-     * @return PlantServices
+     * @return PlantResource
      */
-    public function getList(PlantGetRequest $request, PlantServices $plantServices): PlantServices
+    public function getList(PlantGetRequest $request, PlantServices $plantServices):PlantResource
     {
-        return new PlantServices($plantServices->getList());
+        return new PlantResource($plantServices->getList());
     }
 }
