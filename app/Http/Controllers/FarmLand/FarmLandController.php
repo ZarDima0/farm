@@ -16,7 +16,7 @@ class FarmLandController extends Controller
      */
     public function create(FarmLandCreateRequest $request, FarmLandServices $FarmLandServices): FarmLandResource
     {
-        return new FarmLandResource($FarmLandServices->create($request, Auth::id()));
+        return new FarmLandResource($FarmLandServices->create($request->getName(), Auth::id()));
     }
 
     /**

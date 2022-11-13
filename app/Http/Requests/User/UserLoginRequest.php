@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\DTO\User\UserDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserLoginRequest extends FormRequest
@@ -27,5 +28,12 @@ class UserLoginRequest extends FormRequest
             'email' => 'required','string','email','max:255',
             'password' => 'required','string', 'min:8'
         ];
+    }
+
+    public function getLoginUserDTO()
+    {
+        return (new UserDTO())
+            ->setEmail($this->input('email'))
+            ->setPassword($this->input('password'));
     }
 }

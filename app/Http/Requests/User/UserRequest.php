@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\DTO\User\UserDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserRequest extends FormRequest
@@ -28,5 +29,13 @@ class UserRequest extends FormRequest
             'email' => 'required','string','email','max:255',
             'password' => 'required','string', 'min:8'
         ];
+    }
+
+    public function getUserRegisterDTO():UserDTO
+    {
+        return (new UserDTO)
+            ->setName($this->input('name'))
+            ->setEmail($this->input('email'))
+            ->setPassword($this->input('password'));
     }
 }

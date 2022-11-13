@@ -1,27 +1,29 @@
 <?php
 namespace App\Http\Services\User;
 
+use App\DTO\User\UserDTO;
 use App\Events\EventCreateFarmLand;
 use App\Models\User;
 
 class AuthUserServices
 {
+
     /**
-     * @param $request
-     * @return mixed
+     * @param UserDTO $userDTO
+     * @return array
      */
-    public function register($request)
+    public function register(UserDTO $userDTO)
     {
         $input = [
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'password' => bcrypt($request['password']),
+            'name' => $userDTO->getName(),
+            'email' => $userDTO->getEmail(),
+            'password' => $userDTO->getPassword(),
         ];
         $user = User::create($input);
 
         $createFarmLand = event(new EventCreateFarmLand($user));
 
-        $token = $user->createToken($request['email'])->plainTextToken;
+        $token = $user->createToken($userDTO->getEmail())->plainTextToken;
         return [
             'farmLand' => $createFarmLand,
             'token' => $token
@@ -29,12 +31,12 @@ class AuthUserServices
     }
 
     /**
-     * @param $request
+     * @param UserDTO $userDTO
      * @return mixed
      */
-    public function login($request)
+    public function login(UserDTO $userDTO)
     {
-        $user = User::where('email', $request['email'])->first();
+        $user = User::where('email', $userDTO->getEmail())->first();
         $token = $user->createToken('app-token')->plainTextToken;
         $user->token = $token;
         return $user;
