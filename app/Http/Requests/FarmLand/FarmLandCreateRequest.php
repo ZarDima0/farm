@@ -27,4 +27,9 @@ class FarmLandCreateRequest extends FormRequest
             'name' => 'required','string',
         ];
     }
+
+    public function getName()
+    {
+        return $this->input('name');
+    }
 }

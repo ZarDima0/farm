@@ -4,7 +4,6 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Requests\User\UserLoginRequest;
 use App\Http\Requests\User\UserRequest;
-use App\Http\Resources\UserRegisterCollection;
 use App\Http\Resources\UserResource;
 use App\Http\Services\User\AuthUserServices;
 use Illuminate\Routing\Controller;
@@ -15,11 +14,11 @@ class AuthController extends Controller
     /**
      * @param UserRequest $request
      * @param AuthUserServices $authUserServices
-     * @return UserRegisterCollection
+     * @return UserResource
      */
     public function register(UserRequest $request, AuthUserServices $authUserServices):UserResource
     {
-        return new UserResource($authUserServices->register($request));
+        return new UserResource($authUserServices->register($request->getUserRegisterDTO()));
     }
 
     /**
@@ -29,6 +28,6 @@ class AuthController extends Controller
      */
     public function login(UserLoginRequest $request, AuthUserServices $authUserServices):UserResource
     {
-        return new UserResource($authUserServices->login($request));
+        return new UserResource($authUserServices->login($request->getLoginUserDTO()));
     }
 }
