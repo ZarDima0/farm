@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Interface\PlantableInterfece;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -12,7 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property boolean $is_harvestable
  * @property boolean $is_perennial
  */
-class Plant extends Model
+class Plant extends Model implements PlantableInterfece
 {
     use HasApiTokens, HasFactory, Notifiable;
 
