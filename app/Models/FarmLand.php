@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -19,6 +20,14 @@ class FarmLand extends Model
 
     protected $table = 'farm_lands';
     protected $fillable = ['user_id','tiles','name'];
+
+    /**
+     * @return hasOne
+     */
+    public function getUser():hasOne
+    {
+        return $this->hasOne(User::class);
+    }
 
     /**
      * @return int
