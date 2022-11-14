@@ -1,12 +1,13 @@
 <?php
 namespace App\Http\Resources\Tree;
 
+use App\Models\Crop;
 use App\Models\Tree;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TreeResource extends JsonResource
 {
-    /** @var Tree */
+    /** @var Crop */
     public $resource;
     /**
     * Transform the resource into an array.
@@ -23,7 +24,8 @@ class TreeResource extends JsonResource
                 'name' => $tree->getName(),
                 'tiles' => $tree->getTiles(),
                 'height' => $tree->getHeight(),
-                'crop' => $tree->crop(),
+                'crop' =>
+                    dd($tree->crop()->getPlantableType()),
             ];
         }
         return $trees;
