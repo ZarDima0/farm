@@ -18,19 +18,19 @@ class CropSeeder extends Seeder
     {
         $plant = [
             [
-                'plantable_type'=> 'tree',
+                'plantable_type'=> 'App\Models\Tree',
                 'plantable_id'=> 1,
                 'name'=> 'ядро кедра',
                 'yield_per_tile'=> 30,
             ],
             [
-                'plantable_type'=> 'plant',
+                'plantable_type'=> 'App\Models\Plant',
                 'plantable_id'=> 1,
                 'name'=> 'Зерно пшеницы',
                 'yield_per_tile'=> 30,
             ],
             [
-                'plantable_type'=> 'plant',
+                'plantable_type'=> 'App\Models\Plant',
                 'plantable_id'=> 1,
                 'name'=> 'Ягода клубники',
                 'yield_per_tile'=> 200,
