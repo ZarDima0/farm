@@ -4,7 +4,8 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Requests\User\UserLoginRequest;
 use App\Http\Requests\User\UserRequest;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\User\UserLoginResource;
+use App\Http\Resources\User\UserResource;
 use App\Http\Services\User\AuthUserServices;
 use Illuminate\Routing\Controller;
 
@@ -24,10 +25,10 @@ class AuthController extends Controller
     /**
      * @param UserLoginRequest $request
      * @param AuthUserServices $authUserServices
-     * @return UserResource
+     * @return UserLoginResource
      */
-    public function login(UserLoginRequest $request, AuthUserServices $authUserServices):UserResource
+    public function login(UserLoginRequest $request, AuthUserServices $authUserServices): UserLoginResource
     {
-        return new UserResource($authUserServices->login($request->getLoginUserDTO()));
+        return new UserLoginResource($authUserServices->login($request->getLoginUserDTO()));
     }
 }
