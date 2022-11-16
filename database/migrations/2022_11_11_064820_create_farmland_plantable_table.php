@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('farmland_plantable', function (Blueprint $table) {
+        Schema::create('farmland_plantables', function (Blueprint $table) {
             $table->id();
             $table->integer('farmland_id')->nullable();
             $table->morphs('plantable');
             $table->integer('count')->nullable();
-            $table->time('planted_at');
-            $table->time('harvested_at');
+            $table->dateTime('planted_at');
+            $table->dateTime('harvested_at');
         });
     }
 
