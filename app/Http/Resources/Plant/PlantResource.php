@@ -17,16 +17,13 @@ class PlantResource extends JsonResource
     */
     public function toArray($request)
     {
-        $plants = [];
-        foreach ($this->resource as $plant) {
-            $plants[] = [
-                'id' => $plant->id,
-                'name' => $plant->getName(),
-                'is_perennial' => $plant->isIsPerennial(),
-                'is_harvestable' => $plant->isIsHarvestable(),
-                'crop' => $plant->crop(),
-            ];
-        }
-        return $plants;
+        $crop =  $this->resource->crop;
+
+        return [
+            'id' => $this->resource->getId(),
+            'name' => $this->resource->getName(),
+            'is_perennial' => $this->resource->isIsPerennial(),
+            'is_harvestable' => $this->resource->isIsHarvestable(),
+        ];
     }
 }

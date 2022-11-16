@@ -22,9 +22,7 @@ class UserResource extends JsonResource
 
         return [
             'farmLand' => [
-                'userId' => $farmLand->getId(),
-                'name' => $farmLand->getName(),
-                'tiles' => $farmLand->getTiles(),
+                $this->resource
             ],
             'token' => $token
         ];

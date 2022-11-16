@@ -5,16 +5,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Plant\PlantGetRequest;
 use App\Http\Resources\Plant\PlantResource;
 use App\Http\Services\Plant\PlantServices;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class PlantController extends Controller
 {
     /**
      * @param PlantGetRequest $request
      * @param PlantServices $plantServices
-     * @return PlantResource
+     * @return AnonymousResourceCollection
      */
-    public function getList(PlantGetRequest $request, PlantServices $plantServices):PlantResource
+    public function getList(PlantGetRequest $request, PlantServices $plantServices): AnonymousResourceCollection
     {
-        return new PlantResource($plantServices->getList());
+        return PlantResource::collection($plantServices->getList());
     }
 }

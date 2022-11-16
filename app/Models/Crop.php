@@ -12,7 +12,6 @@ use Laravel\Sanctum\HasApiTokens;
  * @property int $plantable_id
  * @property string $name
  * @property int $yield_per_tile
-
  */
 class Crop extends Model
 {

@@ -8,6 +8,7 @@ use App\Http\Resources\FarmLand\FarmLandResource;
 use App\Http\Resources\Tree\TreeResource;
 use App\Http\Services\FarmLand\FarmLandServices;
 use App\Http\Services\Tree\TreeServices;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 class TreeController extends Controller
@@ -18,8 +19,8 @@ class TreeController extends Controller
      * @param TreeServices $treeServices
      * @return TreeResource
      */
-    public function getList(TreeGetRequest $request, TreeServices $treeServices): TreeResource
+    public function getList(TreeGetRequest $request, TreeServices $treeServices): AnonymousResourceCollection
     {
-        return new TreeResource($treeServices->getList());
+        return TreeResource::collection($treeServices->getList());
     }
 }

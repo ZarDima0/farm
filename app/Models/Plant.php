@@ -9,17 +9,35 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
+ * @property int $id
  * @property string $name
  * @property boolean $is_harvestable
  * @property boolean $is_perennial
  */
 class Plant extends Model implements PlantableInterfece
 {
+
     use HasApiTokens, HasFactory, Notifiable;
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
 
     public function crop()
     {
-        return $this->morphMany(Crop::class, 'cropTable');
+        return $this->morphOne(Crop::class, 'plantable');
     }
 
     /**

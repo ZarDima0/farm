@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Resources\Building;
 
+use App\Models\Building;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BuildingResource extends JsonResource
@@ -13,14 +14,16 @@ class BuildingResource extends JsonResource
      */
     public function toArray($request)
     {
-        $buildings = [];
-        foreach ($this->resource as $building) {
-            $buildings[] = [
-                'id' => $building->id,
-                'name' => $building->getName(),
-                'tiles' => $building->getTiles(),
-            ];
-        }
-        return $buildings;
+        /**
+         * @var Building $Building
+         */
+        $buildings = $this->resource;
+
+        return [
+
+            'id' => $buildings->getId(),
+            'name' => $buildings->getName(),
+            'tiles' => $buildings->getTiles(),
+        ];
     }
 }
