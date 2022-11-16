@@ -19,7 +19,7 @@ class FarmLand extends Model
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'farm_lands';
-    protected $fillable = ['user_id','tiles','name'];
+    protected $guarded = ['id'];
 
     /**
      * @return belongsTo

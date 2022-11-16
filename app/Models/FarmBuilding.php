@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
- * @property int $user_id
  * @property int $building_id
+ * @property int $farm_id
  */
-class BuildingFarm extends Model
+class FarmBuilding extends Model
 {
     use HasFactory;
 
@@ -20,17 +20,17 @@ class BuildingFarm extends Model
     /**
      * @return belongsTo
      */
-    public function user():belongsTo
+    public function building():belongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Building::class);
     }
 
     /**
      * @return belongsTo
      */
-    public function building():belongsTo
+    public function farmLand():belongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(FarmLand::class);
     }
 
     /**
@@ -52,22 +52,6 @@ class BuildingFarm extends Model
     /**
      * @return int
      */
-    public function getUserId(): int
-    {
-        return $this->user_id;
-    }
-
-    /**
-     * @param int $user_id
-     */
-    public function setUserId(int $user_id): void
-    {
-        $this->user_id = $user_id;
-    }
-
-    /**
-     * @return int
-     */
     public function getBuildingId(): int
     {
         return $this->building_id;
@@ -79,5 +63,21 @@ class BuildingFarm extends Model
     public function setBuildingId(int $building_id): void
     {
         $this->building_id = $building_id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFarmId(): int
+    {
+        return $this->farm_id;
+    }
+
+    /**
+     * @param int $farm_id
+     */
+    public function setFarmId(int $farm_id): void
+    {
+        $this->farm_id = $farm_id;
     }
 }

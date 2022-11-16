@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Services\User;
 
-use App\DTO\User\UserDTO;
 use App\Events\EventCreateFarmLand;
+use App\Http\Services\User\DTO\UserDTO;
 use App\Models\User;
 
 class AuthUserServices
@@ -19,7 +19,7 @@ class AuthUserServices
             'email' => $userDTO->getEmail(),
             'password' => $userDTO->getPassword(),
         ];
-        $user = User::create($input);
+        $user = User::query()->create($input);
 
         $createFarmLand = event(new EventCreateFarmLand($user));
 
