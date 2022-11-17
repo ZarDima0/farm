@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\FarmLand;
 
-use App\Http\Services\User\DTO\UserDTO;
+use App\Http\Requests\FarmLand\DTO\CreateBuildingFarmLandDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class CreateBuildingFarmLandRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,17 +25,17 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' =>'required','string',
-            'email' => 'required','string','email','max:255',
-            'password' => 'required','string', 'min:8'
+            'building_id' => 'integer',
         ];
     }
 
     /**
-     * @return UserDTO
+     * @return CreateBuildingFarmLandDTO
      */
-    public function getUserRegisterDTO():UserDTO
+    public function getCreateBuilderDTO(): CreateBuildingFarmLandDTO
     {
-        return (new UserDTO($this->input('name'),$this->input('email'),$this->input('password')));
+        return new CreateBuildingFarmLandDTO(
+            $this->input('building_id'),
+        );
     }
 }

@@ -13,10 +13,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class FarmBuilding extends Model
 {
-    use HasFactory;
 
-    protected $table = 'buildings-farm';
-
+    protected $table = 'farm_buildings';
+    protected $guarded = ['id'];
     /**
      * @return belongsTo
      */

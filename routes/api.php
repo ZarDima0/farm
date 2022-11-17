@@ -11,8 +11,12 @@ use \App\Http\Controllers\User\AuthController;
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('farmlands')->group(function () {
+        Route::get('{id}/buildings', [FarmLandController::class, 'getBuildings'])->name('get.farmlands.buildings');
+        Route::post('{id}/buildings', [FarmLandController::class, 'createBuildings'])->name('create.farmlands.buildings');
+        Route::get('{id}/plantables', [FarmLandController::class, 'getPlantables'])->name('get.farmlands.Plantables');
+        Route::post('{id}/plantables', [FarmLandController::class, 'createPlantables'])->name('create.farmlands.Plantables');
         Route::post('', [FarmLandController::class, 'create']);
-        Route::get('', [FarmLandController::class, 'getList']);
+        Route::get('getList', [FarmLandController::class, 'getList']);
     });
 
     Route::prefix('plants')
