@@ -12,7 +12,7 @@ class FarmLandServices
      */
     public function create($name, $user_id)
     {
-        return FarmLand::create([
+        return FarmLand::query()->create([
             'user_id' =>$user_id,
             'name' => $name,
             'tiles' => 1000,
@@ -25,6 +25,6 @@ class FarmLandServices
      */
     public function getList(int $user_id): \Illuminate\Database\Eloquent\Collection
     {
-        return FarmLand::where('user_id','=',$user_id)->get();
+        return FarmLand::query()->where('user_id','=',$user_id)->get();
     }
 }

@@ -27,8 +27,9 @@ class ListenerCreateFarmLand
      */
     public function handle(EventCreateFarmLand $event)
     {
-        $user = $event->user;
-        return FarmLand::create([
+
+        $user = $event->getUser();
+        FarmLand::query()->create([
             'user_id' =>$user->getId(),
             'name' => $user->getName(),
             'tiles' => 1000,
