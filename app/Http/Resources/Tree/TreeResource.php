@@ -7,8 +7,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class TreeResource extends JsonResource
 {
-    /** @var Crop */
+    /** @var Tree */
     public $resource;
+
     /**
     * Transform the resource into an array.
     *
@@ -17,17 +18,13 @@ class TreeResource extends JsonResource
     */
     public function toArray($request)
     {
-        $trees = [];
-        foreach ($this->resource as $tree) {
-            $trees[] = [
-                'id' => $tree->id,
-                'name' => $tree->getName(),
-                'tiles' => $tree->getTiles(),
-                'height' => $tree->getHeight(),
-                'crop' =>
-                    dd($tree->crop()->getPlantableType()),
-            ];
-        }
-        return $trees;
+        $tree =  $this->resource;
+        return [
+            'id' => $tree->id,
+            'name' => $tree->getName(),
+            'tiles' => $tree->getTiles(),
+            'height' => $tree->getHeight(),
+            'crop' => $tree->crop() ? null : $tree->crop(),
+        ];
     }
 }

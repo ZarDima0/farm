@@ -3,23 +3,25 @@
 namespace App\Models;
 
 use App\Interface\PlantableInterfece;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 /**
+ * @property int $id
  * @property string $name
  * @property int $tiles
  * @property int $height
  */
 class Tree extends Model implements PlantableInterfece
 {
-    use HasApiTokens, HasFactory, Notifiable;
+
+    public function getId()
+    {
+        return $this->id;
+    }
 
     public function crop()
     {
-        return $this->morphMany(Crop::class, 'cropTable');
+        return $this->morphOne(Crop::class, 'plantable');
     }
 
     /**

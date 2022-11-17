@@ -18,14 +18,12 @@ class FarmLandResource extends JsonResource
     */
     public function toArray($request)
     {
-        $farmLands = [];
-        foreach ($this->resource as $farmLand) {
-            $farmLands[] = [
-                'id' => $farmLand->id,
-                'name' => $farmLand->getName(),
-                'tiles' => $farmLand->getTiles(),
-            ];
-        }
-        return $farmLands;
+        $farmLand = $this->resource;
+
+        return [
+            'id' => $farmLand->getId(),
+            'name' => $farmLand->getName(),
+            'tiles' => $farmLand->getTiles(),
+        ];
     }
 }

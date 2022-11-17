@@ -8,12 +8,21 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
+ * @property int $id
  * @property string $name
  * @property int $tiles
  */
 class Building extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
     /**
      * @return string

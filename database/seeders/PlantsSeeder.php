@@ -15,29 +15,44 @@ class PlantsSeeder extends Seeder
      */
     public function run()
     {
-        $plant = [
+        $plants = [
             [   'name' => 'Пшеница',
                 'is_harvestable' => 1,
                 'is_perennial' => 0,
+                'crop' => [
+                    'name'=> 'Зерно пшеницы',
+                    'yield_per_tile'=> 30,
+                ],
             ],
             [
                 'name' => 'Клубника',
                 'is_harvestable' => 1,
                 'is_perennial' => 0,
+                'crop' => [
+                    'name'=> 'Ягода клубники',
+                    'yield_per_tile'=> 200,
+                ],
             ],
             [
                 'name' => 'Розовый куст',
                 'is_harvestable' => 0,
                 'is_perennial' => 1,
-            ]
+                'crop' => null
+            ],
         ];
 
-        foreach ($plant as $item) {
-            Plant::create([
+        foreach ($plants as $item) {
+            $plant = Plant::query()->create([
                 'name' => $item['name'],
                 'is_harvestable' =>$item['is_harvestable'],
                 'is_perennial' => $item['is_perennial'],
             ]);
+            /**
+             * @var Plant $plant
+             */
+            if ($item['crop']) {
+                $plant->crop()->create($item['crop']);
+            }
         }
     }
 

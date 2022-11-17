@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\User;
 
-use App\DTO\User\UserDTO;
+use App\Http\Services\User\DTO\UserDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserRequest extends FormRequest
@@ -33,9 +33,6 @@ class UserRequest extends FormRequest
 
     public function getUserRegisterDTO():UserDTO
     {
-        return (new UserDTO)
-            ->setName($this->input('name'))
-            ->setEmail($this->input('email'))
-            ->setPassword($this->input('password'));
+        return (new UserDTO($this->input('name'),$this->input('email'),$this->input('password')));
     }
 }

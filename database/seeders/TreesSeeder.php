@@ -14,6 +14,21 @@ class TreesSeeder extends Seeder
      */
     public function run()
     {
+//        foreach ($plants as $item) {
+//            $plant = Plant::query()->create([
+//                'name' => $item['name'],
+//                'is_harvestable' =>$item['is_harvestable'],
+//                'is_perennial' => $item['is_perennial'],
+//            ]);
+//            /**
+//             * @var Plant $plant
+//             */
+//            if ($item['crop']) {
+//                $plant->crop()->create($item['crop']);
+//            }
+//        }
+//
+//
         \App\Models\Tree::create([
             'name' => 'Кедр',
             'tiles' => 200,
