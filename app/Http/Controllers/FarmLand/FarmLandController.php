@@ -6,9 +6,10 @@ use App\Http\Requests\FarmLand\CreateBuildingFarmLandRequest;
 use App\Http\Requests\FarmLand\CreatePlantablesFarmLandRequest;
 use App\Http\Requests\FarmLand\FarmLandCreateRequest;
 use App\Http\Resources\FarmLand\CreateFarmLandBuildingsResource;
-use App\Http\Resources\FarmLand\CreateFarmLandPlantablesResource;
+use App\Http\Resources\FarmLand\CreateFarmLandPlanResource;
 use App\Http\Resources\FarmLand\FarmLandResource;
 use App\Http\Resources\FarmLand\GetFarmLandBuildingResource;
+use App\Http\Resources\Farmland\GetFarmLandPlantResource;
 use App\Http\Services\FarmLand\FarmLandServices;
 use Exception;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -59,15 +60,17 @@ class FarmLandController extends Controller
         return new CreateFarmLandBuildingsResource($farmLandServices->createBuildings($CreateBuildingFarmLandRequest->getCreateBuilderDTO(), $id));
     }
 
-    public function getPlantables($id, FarmLandServices $farmLandServices)
-    {
-        return $farmLandServices->getPlantables();
+    public function getPlantables(
+        $id,
+        FarmLandServices $farmLandServices
+    ): AnonymousResourceCollection {
+        return GetFarmLandPlantResource::collection($farmLandServices->getPlantables($id));
     }
 
-    public function createPlantables(CreatePlantablesFarmLandRequest $createPlantablesFarmLandRequest, FarmLandServices $farmLandServices)
-    {
-        $CreatePlantablesFarmLandRequest = $createPlantablesFarmLandRequest->getPlantFarmLandDTO();
-
-        return new CreateFarmLandPlantablesResource($farmLandServices->createPlantables($CreatePlantablesFarmLandRequest));
+    public function createPlantables(
+        CreatePlantablesFarmLandRequest $createPlanFarmLandRequest,
+        FarmLandServices $farmLandServices
+    ): CreateFarmLandPlanResource {
+        return new CreateFarmLandPlanResource($farmLandServices->createPlantables($createPlanFarmLandRequest->getPlantFarmLandDTO()));
     }
 }

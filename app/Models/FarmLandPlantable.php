@@ -22,6 +22,7 @@ class FarmLandPlantable extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public $timestamps = false;
     protected $table = 'farmland_plantable';
     protected $guarded = ['id'];
 
@@ -106,15 +107,15 @@ class FarmLandPlantable extends Model
     }
 
     /**
-     * @return Carbon
+     * @return string
      */
-    public function getPlantedAt(): Carbon
+    public function getPlantedAt(): string
     {
         return $this->planted_at;
     }
 
     /**
-     * @param Carbon $planted_at
+     * @param string $planted_at
      */
     public function setPlantedAt(Carbon $planted_at): void
     {
@@ -122,15 +123,15 @@ class FarmLandPlantable extends Model
     }
 
     /**
-     * @return Carbon
+     * @return string
      */
-    public function getHarvestedAt(): Carbon
+    public function getHarvestedAt(): string
     {
         return $this->harvested_at;
     }
 
     /**
-     * @param Carbon $harvested_at
+     * @param string $harvested_at
      */
     public function setHarvestedAt(Carbon $harvested_at): void
     {

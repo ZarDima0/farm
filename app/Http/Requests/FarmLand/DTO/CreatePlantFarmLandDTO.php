@@ -58,17 +58,17 @@ class CreatePlantFarmLandDTO
     }
 
     /**
-     * @return Carbon
+     * @return string
      */
-    public function getPlantedAt(): Carbon
+    public function getPlantedAt(): string
     {
         return $this->planted_at;
     }
 
     /**
-     * @return Carbon
+     * @return string
      */
-    public function getHarvestedAt(): Carbon
+    public function getHarvestedAt(): string
     {
         return $this->harvested_at;
     }

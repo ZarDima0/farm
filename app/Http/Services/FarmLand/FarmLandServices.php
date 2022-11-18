@@ -1,11 +1,14 @@
 <?php
 namespace App\Http\Services\FarmLand;
+use App\Helpers\Helpers;
 use App\Http\Requests\FarmLand\DTO\CreateBuildingFarmLandDTO;
 use App\Http\Requests\FarmLand\DTO\CreatePlantFarmLandDTO;
 use App\Models\FarmBuilding;
 use App\Models\FarmLand;
 use App\Models\FarmLandPlantable;
+use Carbon\Carbon;
 use Exception;
+use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -58,12 +61,24 @@ class FarmLandServices
         ]);
     }
 
-    public function getPlantables()
+    /**
+     * @param $id
+     * @return CursorPaginator
+     */
+    public function getPlantables($id): CursorPaginator
     {
+        return FarmLandPlantable::query()->where('farmland_id', $id)->cursorPaginate(10);
     }
 
     public function createPlantables(CreatePlantFarmLandDTO $createPlantFarmLandDTO)
     {
-        dd($createPlantFarmLandDTO);
+        return FarmLandPlantable::query()->create([
+            'farmland_id' => $createPlantFarmLandDTO->getFarmlandId(),
+            'plantable_type' => Helpers::convertMorpf($createPlantFarmLandDTO->getPlantableType()),
+            'plantable_id' => $createPlantFarmLandDTO->getPlantableId(),
+            'count' => $createPlantFarmLandDTO->getCount(),
+            'planted_at' => Helpers::parseCarbon($createPlantFarmLandDTO->getPlantedAt()),
+            'harvested_at' => Helpers::parseCarbon($createPlantFarmLandDTO->getHarvestedAt()),
+        ]);
     }
 }
