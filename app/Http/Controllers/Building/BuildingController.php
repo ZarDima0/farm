@@ -22,4 +22,7 @@ class BuildingController extends Controller
     {
         return BuildingResource::collection($buildingServices->getList());
     }
+
+
+
 }

@@ -12,6 +12,7 @@ use App\Http\Resources\FarmLand\GetFarmLandBuildingResource;
 use App\Http\Resources\Farmland\GetFarmLandPlantResource;
 use App\Http\Services\FarmLand\FarmLandServices;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,7 +30,7 @@ class FarmLandController extends Controller
 
     /**
      * @param FarmLandServices $FarmLandServices
-     * @return FarmLandResource
+     * @return AnonymousResourceCollection
      */
     public function getList(FarmLandServices $FarmLandServices): AnonymousResourceCollection
     {
@@ -60,6 +61,11 @@ class FarmLandController extends Controller
         return new CreateFarmLandBuildingsResource($farmLandServices->createBuildings($CreateBuildingFarmLandRequest->getCreateBuilderDTO(), $id));
     }
 
+    /**
+     * @param $id
+     * @param FarmLandServices $farmLandServices
+     * @return AnonymousResourceCollection
+     */
     public function getPlantables(
         $id,
         FarmLandServices $farmLandServices
@@ -67,10 +73,82 @@ class FarmLandController extends Controller
         return GetFarmLandPlantResource::collection($farmLandServices->getPlantables($id));
     }
 
+    /**
+     * @param CreatePlantablesFarmLandRequest $createPlanFarmLandRequest
+     * @param FarmLandServices $farmLandServices
+     * @return CreateFarmLandPlanResource
+     */
     public function createPlantables(
         CreatePlantablesFarmLandRequest $createPlanFarmLandRequest,
         FarmLandServices $farmLandServices
     ): CreateFarmLandPlanResource {
         return new CreateFarmLandPlanResource($farmLandServices->createPlantables($createPlanFarmLandRequest->getPlantFarmLandDTO()));
+    }
+
+    /**
+     * @param $id
+     * @param $idBuilding
+     * @param FarmLandServices $farmLandServices
+     * @return CreateFarmLandBuildingsResource
+     */
+    public function showBuilding($id,$idBuilding,FarmLandServices $farmLandServices)
+    {
+        return new CreateFarmLandBuildingsResource($farmLandServices->showBuilding($id, $idBuilding));
+    }
+
+    /**
+     * @param $id
+     * @param $idPlantable
+     * @param FarmLandServices $farmLandServices
+     * @return CreateFarmLandPlanResource
+     */
+    public function showPlantable($id,$idPlantable, FarmLandServices $farmLandServices)
+    {
+        return new CreateFarmLandPlanResource($farmLandServices->showPlantable($id, $idPlantable));
+    }
+
+    public function editPlantable($id,$idPlantable, FarmLandServices $farmLandServices)
+    {
+        return new CreateFarmLandPlanResource($farmLandServices->showPlantable($id, $idPlantable));
+    }
+
+    /**
+     * @param $id
+     * @param $idBuilding
+     * @param Request $request
+     * @param FarmLandServices $farmLandServices
+     * @return int
+     */
+    public function editBuilding($id,$idBuilding,Request $request ,FarmLandServices $farmLandServices)
+    {
+        return $farmLandServices->updateBuilding($id,$idBuilding,$request);
+    }
+
+    /**
+     *
+     * Метод удаления Plantable
+     *
+     * @param $id
+     * @param $idBuilding
+     * @param FarmLandServices $farmLandServices
+     * @return void
+     */
+    public function deletePlantable($id,$idPlantable,FarmLandServices $farmLandServices)
+    {
+        return $farmLandServices->deletePlantable($id,$idPlantable);
+    }
+
+    /**
+     *
+     * Метод удаления Building
+     *
+     * @param $id
+     * @param $idPlantable
+     * @param FarmLandServices $farmLandServices
+     * @return void
+     */
+    public function deleteBuilding($id,$idBuilding,FarmLandServices $farmLandServices)
+    {
+        return $farmLandServices->deleteBuilding($id,$idBuilding);
     }
 }

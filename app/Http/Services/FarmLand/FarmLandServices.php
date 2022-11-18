@@ -48,6 +48,9 @@ class FarmLandServices
 
     /**
      * @param CreateBuildingFarmLandDTO $createBuildingFarmLandDTO
+     * @param $farmID
+     * @return Builder|Model
+     * @throws Exception
      */
     public function createBuildings(CreateBuildingFarmLandDTO $createBuildingFarmLandDTO, $farmID): Builder|Model
     {
@@ -70,7 +73,11 @@ class FarmLandServices
         return FarmLandPlantable::query()->where('farmland_id', $id)->cursorPaginate(10);
     }
 
-    public function createPlantables(CreatePlantFarmLandDTO $createPlantFarmLandDTO)
+    /**
+     * @param CreatePlantFarmLandDTO $createPlantFarmLandDTO
+     * @return Model|Builder
+     */
+    public function createPlantables(CreatePlantFarmLandDTO $createPlantFarmLandDTO): Model|Builder
     {
         return FarmLandPlantable::query()->create([
             'farmland_id' => $createPlantFarmLandDTO->getFarmlandId(),
@@ -80,5 +87,51 @@ class FarmLandServices
             'planted_at' => Helpers::parseCarbon($createPlantFarmLandDTO->getPlantedAt()),
             'harvested_at' => Helpers::parseCarbon($createPlantFarmLandDTO->getHarvestedAt()),
         ]);
+    }
+
+    /**
+     * @param $id
+     * @param $idBuilding
+     * @return Builder|object|null
+     */
+    public function showBuilding($id, $idBuilding): Model|Builder|null
+    {
+        return FarmBuilding::query()->where('farm_id',$id)->where('building_id',$idBuilding)->first();
+    }
+
+    /**
+     * @param $id
+     * @param $idPlantable
+     * @return Model|Builder|null
+     */
+    public function showPlantable($id, $idPlantable): Model|Builder|null
+    {
+        return FarmLandPlantable::query()->where('farmland_id',$id)->where('plantable_id',$idPlantable)->first();
+    }
+
+
+
+
+    public function deletePlantable($id, $idPlantable)
+    {
+        return FarmLandPlantable::query()->where('farmland_id',$id)->where('plantable_id',$idPlantable)->delete();
+    }
+
+    public function deleteBuilding($id, $idBuilding)
+    {
+        return FarmBuilding::query()->where('farm_id',$id)->where('building_id',$idBuilding)->delete();
+    }
+
+
+
+    public function updatePlantable($id, $idPlantable)
+    {
+        return FarmLandPlantable::query()->where('farmland_id',$id)->where('plantable_id',$idPlantable)->delete();
+    }
+
+    public function updateBuilding($id, $idBuilding,$req)
+    {
+        $farmLand = FarmBuilding::query()->fing($idBuilding);
+        $farmLand->update([$req]);
     }
 }
