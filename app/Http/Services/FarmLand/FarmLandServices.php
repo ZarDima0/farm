@@ -1,12 +1,11 @@
 <?php
 namespace App\Http\Services\FarmLand;
 use App\Helpers\Helpers;
-use App\Http\Requests\FarmLand\DTO\CreateBuildingFarmLandDTO;
-use App\Http\Requests\FarmLand\DTO\CreatePlantFarmLandDTO;
+use App\Http\Services\FarmLand\DTO\CreateBuildingFarmLandDTO;
+use App\Http\Services\FarmLand\DTO\CreatePlantFarmLandDTO;
 use App\Models\FarmBuilding;
 use App\Models\FarmLand;
 use App\Models\FarmLandPlantable;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,6 +16,8 @@ class FarmLandServices
 {
 
     /**
+     * Services Создание фермы
+     *
      * @param $name
      * @param $user_id
      */
@@ -30,6 +31,8 @@ class FarmLandServices
     }
 
     /**
+     * Services Получение ферм пользователя
+     *
      * @param int $user_id
      * @return Collection
      */
@@ -39,6 +42,8 @@ class FarmLandServices
     }
 
     /**
+     * Services Получение построек на ферме
+     *
      * @param CreateBuildingFarmLandDTO $createBuildingFarmLandDTO
      */
     public function getBuildings($farmID)
@@ -47,6 +52,8 @@ class FarmLandServices
     }
 
     /**
+     * Services создание постройки на ферме
+     *
      * @param CreateBuildingFarmLandDTO $createBuildingFarmLandDTO
      * @param $farmID
      * @return Builder|Model
@@ -65,6 +72,8 @@ class FarmLandServices
     }
 
     /**
+     * Services Получение посадок на ферме
+     *
      * @param $id
      * @return CursorPaginator
      */
@@ -74,6 +83,8 @@ class FarmLandServices
     }
 
     /**
+     * Services создание посадок на ферме
+     *
      * @param CreatePlantFarmLandDTO $createPlantFarmLandDTO
      * @return Model|Builder
      */
@@ -90,6 +101,8 @@ class FarmLandServices
     }
 
     /**
+     * Services отображение одной постройки
+     *
      * @param $id
      * @param $idBuilding
      * @return Builder|object|null
@@ -100,6 +113,9 @@ class FarmLandServices
     }
 
     /**
+     * Services отображение одной посадки
+     *
+     *
      * @param $id
      * @param $idPlantable
      * @return Model|Builder|null
@@ -109,26 +125,51 @@ class FarmLandServices
         return FarmLandPlantable::query()->where('farmland_id',$id)->where('plantable_id',$idPlantable)->first();
     }
 
-
-
-
+    /**
+     * Services Удаление одной посадки с фермы
+     *
+     * @param $id
+     * @param $idPlantable
+     * @return mixed
+     */
     public function deletePlantable($id, $idPlantable)
     {
         return FarmLandPlantable::query()->where('farmland_id',$id)->where('plantable_id',$idPlantable)->delete();
     }
 
+    /**
+     * Services Удаление одной постройки с фермы
+     *
+     * @param $id
+     * @param $idBuilding
+     * @return mixed
+     */
     public function deleteBuilding($id, $idBuilding)
     {
         return FarmBuilding::query()->where('farm_id',$id)->where('building_id',$idBuilding)->delete();
     }
 
-
-
-    public function updatePlantable($id, $idPlantable)
+    /**
+     * Services Обновление одной посадки на ферме
+     *
+     * @param $id
+     * @param $idPlantable
+     * @return mixed
+     */
+    public function updatePlantable($id, $idPlantable,$req)
     {
-        return FarmLandPlantable::query()->where('farmland_id',$id)->where('plantable_id',$idPlantable)->delete();
+        $farmLand = FarmLandPlantable::query()->fing($idPlantable);
+        $farmLand->update([$req]);
     }
 
+    /**
+     * Services Обновление одной постройки на ферме
+     *
+     * @param $id
+     * @param $idBuilding
+     * @param $req
+     * @return void
+     */
     public function updateBuilding($id, $idBuilding,$req)
     {
         $farmLand = FarmBuilding::query()->fing($idBuilding);

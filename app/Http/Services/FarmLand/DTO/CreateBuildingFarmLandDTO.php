@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Requests\FarmLand\DTO;
+namespace App\Http\Services\FarmLand\DTO;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;

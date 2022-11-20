@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Requests\FarmLand\DTO;
+namespace App\Http\Services\FarmLand\DTO;
 
-use Carbon\Carbon;
 
 class CreatePlantFarmLandDTO
 {
