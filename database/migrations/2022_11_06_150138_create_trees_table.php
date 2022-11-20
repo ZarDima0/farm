@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("name");
             $table->integer('tiles');
             $table->integer('height');
+            $table->boolean('is_harvestable');
             $table->timestamps();
         });
     }
