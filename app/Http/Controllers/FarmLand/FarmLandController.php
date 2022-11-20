@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Auth;
 class FarmLandController extends Controller
 {
     /**
+     * Создание фермы
+     *
      * @param FarmLandCreateRequest $request
      * @param FarmLandServices $FarmLandServices
      * @return FarmLandResource
@@ -29,6 +31,8 @@ class FarmLandController extends Controller
     }
 
     /**
+     * Получение ферм пользователя
+     *
      * @param FarmLandServices $FarmLandServices
      * @return AnonymousResourceCollection
      */
@@ -38,6 +42,8 @@ class FarmLandController extends Controller
     }
 
     /**
+     * Получение построек на ферме
+     *
      * @param Request $request
      * @return void
      */
@@ -47,6 +53,8 @@ class FarmLandController extends Controller
     }
 
     /**
+     * Создание постройки на ферме
+     *
      * @param CreateBuildingFarmLandRequest $CreateBuildingFarmLandRequest
      * @param $id
      * @param FarmLandServices $farmLandServices
@@ -62,6 +70,8 @@ class FarmLandController extends Controller
     }
 
     /**
+     * Получение посадок на ферме
+     *
      * @param $id
      * @param FarmLandServices $farmLandServices
      * @return AnonymousResourceCollection
@@ -74,6 +84,8 @@ class FarmLandController extends Controller
     }
 
     /**
+     * Создание посадок на ферме
+     *
      * @param CreatePlantablesFarmLandRequest $createPlanFarmLandRequest
      * @param FarmLandServices $farmLandServices
      * @return CreateFarmLandPlanResource
@@ -86,6 +98,8 @@ class FarmLandController extends Controller
     }
 
     /**
+     * Одна постройка
+     *
      * @param $id
      * @param $idBuilding
      * @param FarmLandServices $farmLandServices
@@ -97,6 +111,8 @@ class FarmLandController extends Controller
     }
 
     /**
+     * Одна посадка
+     *
      * @param $id
      * @param $idPlantable
      * @param FarmLandServices $farmLandServices
@@ -107,17 +123,25 @@ class FarmLandController extends Controller
         return new CreateFarmLandPlanResource($farmLandServices->showPlantable($id, $idPlantable));
     }
 
-    public function editPlantable($id,$idPlantable, FarmLandServices $farmLandServices)
+    /**
+     * Редактирование посадки
+     *
+     * @param $id
+     * @param $idPlantable
+     * @param FarmLandServices $farmLandServices
+     */
+    public function editPlantable($id,$idPlantable, Request $request ,FarmLandServices $farmLandServices)
     {
-        return new CreateFarmLandPlanResource($farmLandServices->showPlantable($id, $idPlantable));
+        return $farmLandServices->updatePlantable($id,$idPlantable, $request);
     }
 
     /**
+     * Редактирование постройки
+     *
      * @param $id
      * @param $idBuilding
      * @param Request $request
      * @param FarmLandServices $farmLandServices
-     * @return int
      */
     public function editBuilding($id,$idBuilding,Request $request ,FarmLandServices $farmLandServices)
     {
@@ -126,7 +150,7 @@ class FarmLandController extends Controller
 
     /**
      *
-     * Метод удаления Plantable
+     * Метод удаления посадки
      *
      * @param $id
      * @param $idBuilding
@@ -140,7 +164,7 @@ class FarmLandController extends Controller
 
     /**
      *
-     * Метод удаления Building
+     * Метод удаления постройки с фермы
      *
      * @param $id
      * @param $idPlantable

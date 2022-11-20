@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\FarmLand;
 
-use App\Http\Requests\FarmLand\DTO\CreateBuildingFarmLandDTO;
+use App\Http\Services\FarmLand\DTO\CreateBuildingFarmLandDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateBuildingFarmLandRequest extends FormRequest

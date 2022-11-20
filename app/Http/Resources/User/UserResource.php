@@ -21,9 +21,6 @@ class UserResource extends JsonResource
         $farmLand = $this->resource['farmLand'][0];
 
         return [
-            'farmLand' => [
-                $this->resource
-            ],
             'token' => $token
         ];
     }
