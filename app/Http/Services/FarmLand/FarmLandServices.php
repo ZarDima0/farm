@@ -111,7 +111,7 @@ class FarmLandServices
      */
     public function showBuilding($id, $idBuilding): Model|Builder|null
     {
-        return FarmBuilding::query()->where('farm_id',$id)->where('building_id',$idBuilding)->first();
+        return FarmBuilding::query()->where('farm_id',$id)->where('id',$idBuilding)->first();
     }
 
     /**
@@ -124,7 +124,7 @@ class FarmLandServices
      */
     public function showPlantable($id, $idPlantable): Model|Builder|null
     {
-        return FarmLandPlantable::query()->where('farmland_id',$id)->where('plantable_id',$idPlantable)->first();
+        return FarmLandPlantable::query()->where('farmland_id',$id)->where('id',$idPlantable)->first();
     }
 
     /**
@@ -136,7 +136,11 @@ class FarmLandServices
      */
     public function deletePlantable($id, $idPlantable)
     {
-        return FarmLandPlantable::query()->where('farmland_id',$id)->where('plantable_id',$idPlantable)->delete();
+        $farmLandPlantable = FarmLandPlantable::query()->where('farmland_id',$id)->where('id',$idPlantable)->delete();
+
+        if(!isset($farmLandPlantable)) {
+            return 'Такой посадки нет';
+        }
     }
 
     /**
@@ -148,42 +152,10 @@ class FarmLandServices
      */
     public function deleteBuilding($id, $idBuilding)
     {
-        return FarmBuilding::query()->where('farm_id',$id)->where('building_id',$idBuilding)->delete();
-    }
+        $farmBuilding = FarmBuilding::query()->where('farm_id',$id)->where('id',$idBuilding)->delete();
 
-    /**
-     * @param $id
-     * @param $idPlantable
-     * @param EditPlantablesFarmLandDTO $editPlantablesFarmLandDTO
-     * @return void
-     */
-    public function updatePlantable($id, $idPlantable,EditPlantablesFarmLandDTO $editPlantablesFarmLandDTO)
-    {
-        $farmLand = FarmLandPlantable::query()->where('farmland_id', '=', $id)
-            ->where('plantable_id','=', $idPlantable);
-        $farmLand->update([
-            'farmland_id' => $editPlantablesFarmLandDTO->getFarmlandId(),
-            'plantable_type' => $editPlantablesFarmLandDTO->getPlantableType(),
-            'plantable_id' => $editPlantablesFarmLandDTO->getPlantableId(),
-            'count' => $editPlantablesFarmLandDTO->getCount(),
-            'planted_at' => $editPlantablesFarmLandDTO->getPlantedAt(),
-            'harvested_at' => $editPlantablesFarmLandDTO->getHarvestedAt(),
-        ]);
-    }
-
-    /**
-     * Services Обновление одной постройки на ферме
-     *
-     * @param $id
-     * @param $idBuilding
-     * @param $req
-     * @return void
-     */
-    public function updateBuilding($id, $idBuilding,EditBuildingFarmLandDTO $editBuildingFarmLandDTO)
-    {
-        $farmLand = FarmBuilding::query()->where('farm_id','=', $id)->where('building_id', '=', $idBuilding);
-        $farmLand->update([
-            'building_id' => $editBuildingFarmLandDTO->getBuilderId()
-        ]);
+        if(!isset($farmBuilding)) {
+            return 'Такой постройки нет';
+        }
     }
 }

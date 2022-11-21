@@ -126,34 +126,6 @@ class FarmLandController extends Controller
     }
 
     /**
-     * Редактирование посадки
-     *
-     * @param $id
-     * @param $idPlantable
-     * @param CreatePlantablesFarmLandRequest $request
-     * @param FarmLandServices $farmLandServices
-     * @return mixed
-     */
-    public function editPlantable($id,$idPlantable, EditPlantablesFarmLandRequest $request ,FarmLandServices $farmLandServices)
-    {
-        return $farmLandServices->updatePlantable($id,$idPlantable, $request->getPlantFarmLandDTO());
-    }
-
-    /**
-     * Редактирование постройки
-     *
-     * @param $id
-     * @param $idBuilding
-     * @param Request $request
-     * @param FarmLandServices $farmLandServices
-     */
-    public function editBuilding($id,$idBuilding,EditBuildingFarmLandRequest $request ,FarmLandServices $farmLandServices)
-    {
-
-        return $farmLandServices->updateBuilding($id,$idBuilding,$request->getBuilderDTO());
-    }
-
-    /**
      *
      * Метод удаления посадки
      *
