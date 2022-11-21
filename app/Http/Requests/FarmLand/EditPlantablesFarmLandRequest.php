@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\FarmLand;
 
-use App\Http\Services\FarmLand\DTO\CreatePlantFarmLandDTO;
+use App\Http\Services\FarmLand\DTO\EditPlantablesFarmLandDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreatePlantablesFarmLandRequest extends FormRequest
+class EditPlantablesFarmLandRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class CreatePlantablesFarmLandRequest extends FormRequest
     public function rules()
     {
         return [
-            'farmland_id' => 'string',
+            'farmland_id' => 'integer',
             'plantable_type' => 'string',
             'plantable_id' => 'integer',
             'count' => 'integer',
@@ -34,9 +34,12 @@ class CreatePlantablesFarmLandRequest extends FormRequest
         ];
     }
 
-    public function getPlantFarmLandDTO()
+    /**
+     * @return EditPlantablesFarmLandDTO
+     */
+    public function getPlantFarmLandDTO():EditPlantablesFarmLandDTO
     {
-        return new CreatePlantFarmLandDTO(
+        return new EditPlantablesFarmLandDTO(
             $this->input('farmland_id'),
             $this->input('plantable_type'),
             $this->input('plantable_id'),

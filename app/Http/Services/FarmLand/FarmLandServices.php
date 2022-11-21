@@ -3,6 +3,8 @@ namespace App\Http\Services\FarmLand;
 use App\Helpers\Helpers;
 use App\Http\Services\FarmLand\DTO\CreateBuildingFarmLandDTO;
 use App\Http\Services\FarmLand\DTO\CreatePlantFarmLandDTO;
+use App\Http\Services\FarmLand\DTO\EditBuildingFarmLandDTO;
+use App\Http\Services\FarmLand\DTO\EditPlantablesFarmLandDTO;
 use App\Models\FarmBuilding;
 use App\Models\FarmLand;
 use App\Models\FarmLandPlantable;
@@ -150,16 +152,23 @@ class FarmLandServices
     }
 
     /**
-     * Services Обновление одной посадки на ферме
-     *
      * @param $id
      * @param $idPlantable
-     * @return mixed
+     * @param EditPlantablesFarmLandDTO $editPlantablesFarmLandDTO
+     * @return void
      */
-    public function updatePlantable($id, $idPlantable,$req)
+    public function updatePlantable($id, $idPlantable,EditPlantablesFarmLandDTO $editPlantablesFarmLandDTO)
     {
-        $farmLand = FarmLandPlantable::query()->fing($idPlantable);
-        $farmLand->update([$req]);
+        $farmLand = FarmLandPlantable::query()->where('farmland_id', '=', $id)
+            ->where('plantable_id','=', $idPlantable);
+        $farmLand->update([
+            'farmland_id' => $editPlantablesFarmLandDTO->getFarmlandId(),
+            'plantable_type' => $editPlantablesFarmLandDTO->getPlantableType(),
+            'plantable_id' => $editPlantablesFarmLandDTO->getPlantableId(),
+            'count' => $editPlantablesFarmLandDTO->getCount(),
+            'planted_at' => $editPlantablesFarmLandDTO->getPlantedAt(),
+            'harvested_at' => $editPlantablesFarmLandDTO->getHarvestedAt(),
+        ]);
     }
 
     /**
@@ -170,9 +179,11 @@ class FarmLandServices
      * @param $req
      * @return void
      */
-    public function updateBuilding($id, $idBuilding,$req)
+    public function updateBuilding($id, $idBuilding,EditBuildingFarmLandDTO $editBuildingFarmLandDTO)
     {
-        $farmLand = FarmBuilding::query()->fing($idBuilding);
-        $farmLand->update([$req]);
+        $farmLand = FarmBuilding::query()->where('farm_id','=', $id)->where('building_id', '=', $idBuilding);
+        $farmLand->update([
+            'building_id' => $editBuildingFarmLandDTO->getBuilderId()
+        ]);
     }
 }
