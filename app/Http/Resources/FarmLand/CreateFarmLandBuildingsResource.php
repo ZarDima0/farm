@@ -24,6 +24,10 @@ class CreateFarmLandBuildingsResource extends JsonResource
             'id' => $farmBuilding->getId(),
             'farmId' => $farmBuilding->getFarmId(),
             'buildingId' => $farmBuilding->getBuildingId(),
+            'building' => [
+                'name' => $farmBuilding->building->getName(),
+                'tiles' => $farmBuilding->building->getTiles(),
+            ]
         ];
     }
 }

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -25,6 +26,14 @@ class FarmLandPlantable extends Model
     public $timestamps = false;
     protected $table = 'farmland_plantables';
     protected $guarded = ['id'];
+
+    /**
+     * @return MorphTo
+     */
+    public function plantTable()
+    {
+        return $this->morphTo();
+    }
 
     /**
      * @return int

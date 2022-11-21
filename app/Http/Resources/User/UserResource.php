@@ -18,8 +18,6 @@ class UserResource extends JsonResource
     {
 
         $token = $this->resource['token'];
-        $farmLand = $this->resource['farmLand'][0];
-
         return [
             'token' => $token
         ];
