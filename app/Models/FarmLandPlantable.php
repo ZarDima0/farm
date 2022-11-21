@@ -23,7 +23,7 @@ class FarmLandPlantable extends Model
     use HasApiTokens, HasFactory, Notifiable;
 
     public $timestamps = false;
-    protected $table = 'farmland_plantable';
+    protected $table = 'farmland_plantables';
     protected $guarded = ['id'];
 
     /**

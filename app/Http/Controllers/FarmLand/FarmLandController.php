@@ -4,6 +4,8 @@ namespace App\Http\Controllers\FarmLand;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FarmLand\CreateBuildingFarmLandRequest;
 use App\Http\Requests\FarmLand\CreatePlantablesFarmLandRequest;
+use App\Http\Requests\FarmLand\EditBuildingFarmLandRequest;
+use App\Http\Requests\FarmLand\EditPlantablesFarmLandRequest;
 use App\Http\Requests\FarmLand\FarmLandCreateRequest;
 use App\Http\Resources\FarmLand\CreateFarmLandBuildingsResource;
 use App\Http\Resources\FarmLand\CreateFarmLandPlanResource;
@@ -128,11 +130,13 @@ class FarmLandController extends Controller
      *
      * @param $id
      * @param $idPlantable
+     * @param CreatePlantablesFarmLandRequest $request
      * @param FarmLandServices $farmLandServices
+     * @return mixed
      */
-    public function editPlantable($id,$idPlantable, Request $request ,FarmLandServices $farmLandServices)
+    public function editPlantable($id,$idPlantable, EditPlantablesFarmLandRequest $request ,FarmLandServices $farmLandServices)
     {
-        return $farmLandServices->updatePlantable($id,$idPlantable, $request);
+        return $farmLandServices->updatePlantable($id,$idPlantable, $request->getPlantFarmLandDTO());
     }
 
     /**
@@ -143,9 +147,10 @@ class FarmLandController extends Controller
      * @param Request $request
      * @param FarmLandServices $farmLandServices
      */
-    public function editBuilding($id,$idBuilding,Request $request ,FarmLandServices $farmLandServices)
+    public function editBuilding($id,$idBuilding,EditBuildingFarmLandRequest $request ,FarmLandServices $farmLandServices)
     {
-        return $farmLandServices->updateBuilding($id,$idBuilding,$request);
+
+        return $farmLandServices->updateBuilding($id,$idBuilding,$request->getBuilderDTO());
     }
 
     /**
