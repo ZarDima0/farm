@@ -17,21 +17,12 @@ class Helpers
      */
     public static function convertMorpf(string $morpf): string
     {
-        if ($morpf == self::PLANT) {
-            return self::PLANT_MORPF;
-        }
-
-        if ($morpf == self::TREE) {
-            return self::TREE_MORPF;
-        }
-
-        if ($morpf == self::TREE_MORPF) {
-            return self::TREE;
-        }
-
-        if ($morpf == self::PLANT_MORPF) {
-            return self::PLANT;
-        }
+        return match($morpf) {
+            self::PLANT => self::PLANT_MORPF,
+            self::TREE => self::TREE_MORPF,
+            self::PLANT_MORPF => self::PLANT,
+            self::TREE_MORPF => self::TREE,
+        };
     }
 
     /**

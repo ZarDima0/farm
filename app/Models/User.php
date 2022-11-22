@@ -58,6 +58,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasMany
+     */
+    public function wallet():HasMany
+    {
+        return $this->hasMany(Wallet::class);
+    }
+
+    /**
      * @return int
      */
     public function getId(): int

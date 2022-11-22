@@ -3,11 +3,10 @@
 namespace App\Providers;
 
 use App\Events\EventCreateFarmLand;
+use App\Events\EventCreateWallet;
 use App\Listeners\ListenerCreateFarmLand;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use App\Listeners\ListenerCreateWallet;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -19,6 +18,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         EventCreateFarmLand::class => [
             ListenerCreateFarmLand::class
+        ],
+        EventCreateWallet::class => [
+            ListenerCreateWallet::class
         ]
     ];
 

@@ -2,6 +2,7 @@
 namespace App\Http\Services\User;
 
 use App\Events\EventCreateFarmLand;
+use App\Events\EventCreateWallet;
 use App\Http\Services\User\DTO\UserDTO;
 use App\Models\User;
 
@@ -22,11 +23,13 @@ class AuthUserServices
         $user = User::query()->create($input);
 
         $createFarmLand = event(new EventCreateFarmLand($user));
+        $createWallet = event(new EventCreateWallet($user));
 
         $token = $user->createToken($userDTO->getEmail())->plainTextToken;
         return [
             'farmLand' => $createFarmLand,
-            'token' => $token
+            'token' => $token,
+            'wallet' => $createWallet,
         ];
     }
 
