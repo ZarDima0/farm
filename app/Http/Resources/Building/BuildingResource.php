@@ -20,7 +20,6 @@ class BuildingResource extends JsonResource
         $buildings = $this->resource;
 
         return [
-
             'id' => $buildings->getId(),
             'name' => $buildings->getName(),
             'tiles' => $buildings->getTiles(),

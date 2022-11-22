@@ -4,6 +4,12 @@ use Illuminate\Support\Facades\Facade;
 
 return [
 
+
+    'url_kassa' => env('URL_KASSA', 'Laravel'),
+
+    'user_id_kassa' => env('USER_ID_KASSA', 'Laravel'),
+
+    'token_kassa' => env('TOKEN_KASSA', 'Laravel'),
     /*
     |--------------------------------------------------------------------------
     | Application Name

@@ -81,7 +81,7 @@ class FarmLandServices
      */
     public function getPlantables($id): CursorPaginator
     {
-        return FarmLandPlantable::query()->where('farmland_id', $id)->cursorPaginate(10);
+        return FarmLandPlantable::query()->where('farmland_id', $id)->cursorPaginate(2);
     }
 
     /**
