@@ -18,7 +18,6 @@ return new class extends Migration
 
             $table->unsignedBigInteger('user_id');
             $table->integer('gem_amount');
-            $table->string('external_id');
             $table->string('type');
             $table->string('status');
             $table->timestamps();
