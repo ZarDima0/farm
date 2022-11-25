@@ -16,9 +16,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $confirmation_url
  * @property string $description
  */
-class Payments extends Model
+class Payment extends Model
 {
-    use HasFactory;
+    public const CURRENCY_RUB = 'RUB';
+    public const STATUS = 'pending';
     protected $guarded = ['id'];
 
     /**

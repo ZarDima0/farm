@@ -12,9 +12,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $type
  * @property string $status
  */
-class WalletTransactions extends Model
+class WalletTransaction extends Model
 {
-    use HasFactory;
+    public const TYPE_ADD_GEM = 'replenishment';
+
     protected $guarded = ['id'];
 
     protected $table = 'wallet__transactions';

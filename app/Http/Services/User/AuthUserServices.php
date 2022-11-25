@@ -5,6 +5,7 @@ use App\Events\EventCreateFarmLand;
 use App\Events\EventCreateWallet;
 use App\Http\Services\User\DTO\UserDTO;
 use App\Models\User;
+use App\Models\Wallet;
 
 class AuthUserServices
 {
@@ -20,16 +21,20 @@ class AuthUserServices
             'email' => $userDTO->getEmail(),
             'password' => $userDTO->getPassword(),
         ];
+
+        /** @var  User $user */
         $user = User::query()->create($input);
 
-        $createFarmLand = event(new EventCreateFarmLand($user));
-        $createWallet = event(new EventCreateWallet($user));
+        event(new EventCreateFarmLand($user));
+
+        Wallet::query()->create([
+            'user_id' =>$user->getId(),
+            'gem_amount' => 0,
+        ]);
 
         $token = $user->createToken($userDTO->getEmail())->plainTextToken;
         return [
-            'farmLand' => $createFarmLand,
             'token' => $token,
-            'wallet' => $createWallet,
         ];
     }
 

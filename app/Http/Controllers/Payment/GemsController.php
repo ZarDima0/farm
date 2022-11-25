@@ -5,28 +5,31 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Gem\BuyGemsRequest;
 use App\Http\Requests\Gem\WebhookRequest;
 use App\Http\Resources\Gem\CreatePaymentResource;
-use App\Http\Services\Gems\GemsServices;
+use App\Http\Services\Gems\GemsService;
+use App\Http\Services\Payment\PaymentService;
 use Illuminate\Support\Facades\Auth;
 
 class GemsController extends Controller
 {
     /**
      * @param BuyGemsRequest $buyGemsRequest
-     * @param GemsServices $paymentServices
+     * @param GemsService $gemsServices
+     * @param PaymentService $paymentService
      * @return CreatePaymentResource
      */
-    public function buyGems(BuyGemsRequest $buyGemsRequest,GemsServices $paymentServices): CreatePaymentResource
+    public function buyGems(BuyGemsRequest $buyGemsRequest,GemsService $gemsServices, PaymentService $paymentService): CreatePaymentResource
     {
-        return new CreatePaymentResource($paymentServices->buyGems($buyGemsRequest->getBuyGems(), Auth::id()));
+        $createdPayment = $paymentService->createPayment($buyGemsRequest->getBuyGems(),$buyGemsRequest->getBuyGemsCurrency(),Auth::id());
+        return new CreatePaymentResource($gemsServices->buyGems($createdPayment, Auth::id()));
     }
 
     /**
      * @param WebhookRequest $request
-     * @param GemsServices $paymentServices
+     * @param PaymentService $paymentServices
      * @return bool|string
      */
-    public function webhook(WebhookRequest $request, GemsServices $paymentServices): bool|string
+    public function webhook(WebhookRequest $request, PaymentService $paymentServices): bool|string
     {
-        return $paymentServices->webhook($request->getNotificationsWebhook());
+        return $paymentServices->processWebhook($request->getWebhook());
     }
 }

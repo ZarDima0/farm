@@ -44,14 +44,14 @@ class FarmLandController extends Controller
     }
 
     /**
-     * Получение построек на ферме
-     *
-     * @param Request $request
-     * @return void
+     * @param $id
+     * @param $paginate
+     * @param FarmLandServices $farmLandServices
+     * @return AnonymousResourceCollection
      */
-    public function getBuildings($id, FarmLandServices $farmLandServices): AnonymousResourceCollection
+    public function getBuildings($id,$paginate,FarmLandServices $farmLandServices): AnonymousResourceCollection
     {
-        return GetFarmLandBuildingResource::collection($farmLandServices->getBuildings($id));
+        return GetFarmLandBuildingResource::collection($farmLandServices->getBuildings($id, $paginate));
     }
 
     /**
@@ -80,9 +80,10 @@ class FarmLandController extends Controller
      */
     public function getPlantables(
         $id,
+        $paginate,
         FarmLandServices $farmLandServices
     ): AnonymousResourceCollection {
-        return GetFarmLandPlantResource::collection($farmLandServices->getPlantables($id));
+        return GetFarmLandPlantResource::collection($farmLandServices->getPlantables($id,$paginate));
     }
 
     /**

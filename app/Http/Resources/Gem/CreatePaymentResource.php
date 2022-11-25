@@ -5,13 +5,13 @@ namespace App\Http\Resources\Gem;
 use App\Helpers\Helpers;
 use App\Models\FarmBuilding;
 use App\Models\FarmLandPlantable;
-use App\Models\Payments;
+use App\Models\Payment;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CreatePaymentResource extends JsonResource
 {
 
-    /** @var Payments */
+    /** @var Payment */
     public $resource;
 
     /**
@@ -24,11 +24,11 @@ class CreatePaymentResource extends JsonResource
     {
         return [
             'id' => $this->resource->getId(),
-            'user_id' => $this->resource->getUserId(),
-            'transactions_id' => $this->resource->getTransactionsId(),
+            'userId' => $this->resource->getUserId(),
+            'transactionsId' => $this->resource->getTransactionsId(),
             'status' => $this->resource->getStatus(),
             'value' => $this->resource->getValue(),
-            'confirmation_url' => $this->resource->getConfirmationUrl(),
+            'confirmationUrl' => $this->resource->getConfirmationUrl(),
             'description' => $this->resource->getDescription(),
         ];
     }
