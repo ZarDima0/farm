@@ -25,9 +25,6 @@ class CreateFarmLandPlanResource extends JsonResource
             'farmland_id' => $this->resource->getFarmlandId(),
             'plantable_type' => Helpers::convertMorpf($this->resource->getPlantableType()),
             'plantable_id' => $this->resource->getPlantableId(),
-            'plant' => [
-                'id' => $this->resource->update(),
-            ],
             'count' => $this->resource->getCount(),
             'planted_at' => $this->resource->getPlantedAt(),
             'harvested_at' => $this->resource->getHarvestedAt(),
