@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Building\BuildingController;
 use App\Http\Controllers\FarmLand\FarmLandController;
-use App\Http\Controllers\Payment\GemsController;
+use App\Http\Controllers\Gem\GemController;
 use App\Http\Controllers\Plant\PlantController;
 use App\Http\Controllers\Tree\TreeController;
 use Illuminate\Http\Request;
@@ -45,11 +45,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
         });
     Route::prefix('gems')
         ->group(function () {
-            Route::post('/buy',[GemsController::class, 'buyGems'])->name('gems.buy');
+            Route::post('/buy',[GemController::class, 'buyGems'])->name('gems.buy');
         });
 });
 
-Route::post('gems/webhook',[GemsController::class, 'webhook'])->name('gems.webhook');
+Route::post('gems/webhook',[GemController::class, 'webhook'])->name('gems.webhook');
 
 Route::prefix('/user')->group(callback: function () {
     Route::post('/register',[AuthController::class,'register'])->name('user.register');

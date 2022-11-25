@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Http\Services\Gems;
+namespace App\Http\Services\Gem;
 
 use App\Http\Services\Payment\YooKassa\CreateResponse;
 use App\Models\Payment;
-use App\Models\Wallet;
 use App\Models\WalletTransaction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Http;
 
-class GemsService
+class GemService
 {
 
     /**

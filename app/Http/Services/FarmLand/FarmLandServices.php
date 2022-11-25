@@ -45,6 +45,8 @@ class FarmLandServices
     }
 
     /**
+     * Services Получение построек на ферме
+     *
      * @param $farmID
      * @param $paginate
      * @return LengthAwarePaginator
