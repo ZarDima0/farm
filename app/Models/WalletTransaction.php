@@ -18,7 +18,6 @@ class WalletTransaction extends Model
 
     protected $guarded = ['id'];
 
-    protected $table = 'wallet__transactions';
     /**
      * @return int
      */
