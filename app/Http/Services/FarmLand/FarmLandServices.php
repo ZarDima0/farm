@@ -23,6 +23,7 @@ class FarmLandServices
      *
      * @param $name
      * @param $user_id
+     * @return Builder|Model
      */
     public function create($name, $user_id)
     {

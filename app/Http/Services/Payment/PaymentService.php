@@ -4,6 +4,7 @@ namespace App\Http\Services\Payment;
 
 use App\Http\Services\Payment\DTO\WebhookDTO;
 use App\Http\Services\Payment\YooKassa\CreateResponse;
+use App\Jobs\ProccessWalletReplenishment;
 use App\Models\Payment;
 use App\Models\Wallet;
 use App\Models\WalletTransaction;
@@ -69,6 +70,11 @@ class PaymentService
         /** @var Wallet $wallet */
         $wallet = Wallet::query()->where('user_id', '=', $payments->getUserId())->first();
 
+        ProccessWalletReplenishment::dispatch(
+            $payments->getUserId(),
+            $wallet->getGemAmount(),
+            $payments->getValue()
+        );
         Wallet::query()->where('user_id', '=', $payments->getUserId())
             ->update([
                 'gem_amount' => (int)$wallet->getGemAmount() + (int)$payments->getValue(),
