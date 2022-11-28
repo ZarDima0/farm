@@ -10,6 +10,7 @@ use App\Models\FarmLand;
 use App\Models\FarmLandPlantable;
 use Exception;
 use Illuminate\Contracts\Pagination\CursorPaginator;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +23,7 @@ class FarmLandServices
      *
      * @param $name
      * @param $user_id
+     * @return Builder|Model
      */
     public function create($name, $user_id)
     {
@@ -46,11 +48,13 @@ class FarmLandServices
     /**
      * Services Получение построек на ферме
      *
-     * @param CreateBuildingFarmLandDTO $createBuildingFarmLandDTO
+     * @param $farmID
+     * @param $paginate
+     * @return LengthAwarePaginator
      */
-    public function getBuildings($farmID)
+    public function getBuildings($farmID,$paginate)
     {
-        return FarmBuilding::query()->where('farm_id', $farmID)->paginate(10);
+        return FarmBuilding::query()->where('farm_id', $farmID)->paginate($paginate);
     }
 
     /**
@@ -77,11 +81,12 @@ class FarmLandServices
      * Services Получение посадок на ферме
      *
      * @param $id
+     * @param $paginate
      * @return CursorPaginator
      */
-    public function getPlantables($id): CursorPaginator
+    public function getPlantables($id, $paginate): CursorPaginator
     {
-        return FarmLandPlantable::query()->where('farmland_id', $id)->cursorPaginate(2);
+        return FarmLandPlantable::query()->where('farmland_id', $id)->cursorPaginate($paginate);
     }
 
     /**

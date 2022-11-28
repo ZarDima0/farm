@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Gem;
 
+use App\Http\Services\Payment\DTO\WebhookDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class WebhookRequest extends FormRequest
@@ -34,5 +35,16 @@ class WebhookRequest extends FormRequest
     public function getNotificationsWebhook(): array
     {
         return $this->all();
+    }
+
+    /**
+     * @return WebhookDTO
+     */
+    public function getWebhook(): WebhookDTO
+    {
+        return new WebhookDTO(
+            $this->input('object.status'),
+            $this->input('object.id'),
+        );
     }
 }

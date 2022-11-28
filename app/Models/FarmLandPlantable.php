@@ -30,7 +30,7 @@ class FarmLandPlantable extends Model
     /**
      * @return MorphTo
      */
-    public function plantTable()
+    public function plantTable(): MorphTo
     {
         return $this->morphTo();
     }

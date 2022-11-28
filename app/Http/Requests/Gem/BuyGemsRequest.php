@@ -25,11 +25,17 @@ class BuyGemsRequest extends FormRequest
     {
         return [
             'gemAmount' => 'integer',
+            'currency' => 'string',
         ];
     }
 
     public function getBuyGems()
     {
         return $this->input('gemAmount');
+    }
+
+    public function getBuyGemsCurrency()
+    {
+        return $this->input('currency');
     }
 }
