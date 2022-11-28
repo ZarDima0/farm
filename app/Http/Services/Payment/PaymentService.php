@@ -70,10 +70,6 @@ class PaymentService
             $wallet->getGemAmount(),
             $payments->getValue()
         );
-        Wallet::query()->where('user_id', '=', $payments->getUserId())
-            ->update([
-                'gem_amount' => (int)$wallet->getGemAmount() + (int)$payments->getValue(),
-            ]);
 
         return response('', 200);
     }
