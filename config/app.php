@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Facade;
 return [
 
 
+    'publishable_key' => env('PUBLISHABLE_KEY', 'Laravel'),
+
+    'secret_key' => env('SECRET_KEY', 'Laravel'),
+
     'url_kassa' => env('URL_KASSA', 'Laravel'),
 
     'user_id_kassa' => env('USER_ID_KASSA', 'Laravel'),

@@ -52,6 +52,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::post('gems/webhook',[GemController::class,
     'webhook'])->name('gem.webhook');
 
+Route::post('gems/spripe/webhook',[GemController::class,
+    'webhook'])->name('gem.webhook');
+
 Route::prefix('/user')->group(callback: function () {
     Route::post('/register',[AuthController::class,'register'])->name('user.register');
     Route::post('/login',[AuthController::class,'login'])->name('user.login');
