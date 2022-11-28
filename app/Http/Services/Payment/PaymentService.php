@@ -20,7 +20,6 @@ class PaymentService
 
     public function createPayment(int $amount, string $currency, int $userId)
     {
-
         if($currency == Payment::CURRENCY_RUB) {
 
             $response = Http::withBasicAuth(config('app.user_id_kassa'), config('app.token_kassa'))
@@ -50,10 +49,6 @@ class PaymentService
      */
     public function processWebhook(WebhookDTO $webhookDTO):Response|false
     {
-        if ($webhookDTO->getStatusNotifications() != self::TYPE_WEBHOOK) {
-            return false;
-        }
-
         Payment::query()->where('external_id', '=', $webhookDTO->getIdNotifications())
             ->update([
                 'status' => $webhookDTO->getStatusNotifications()

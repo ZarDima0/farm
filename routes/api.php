@@ -45,11 +45,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
         });
     Route::prefix('gems')
         ->group(function () {
-            Route::post('/buy',[GemController::class, 'buyGems'])->name('gems.buy');
+            Route::post('/buy',[GemController::class, 'buyGems'])->name('gem.buy');
         });
 });
 
-Route::post('gems/webhook',[GemController::class, 'webhook'])->name('gems.webhook');
+Route::post('gems/webhook',[GemController::class,
+    'webhook'])->name('gem.webhook');
 
 Route::prefix('/user')->group(callback: function () {
     Route::post('/register',[AuthController::class,'register'])->name('user.register');
@@ -59,3 +60,4 @@ Route::prefix('/user')->group(callback: function () {
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
