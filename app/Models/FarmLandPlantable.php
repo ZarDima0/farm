@@ -27,14 +27,20 @@ class FarmLandPlantable extends Model
     protected $table = 'farmland_plantables';
     protected $guarded = ['id'];
 
-    /**
-     * @return MorphTo
-     */
-    public function plantTable(): MorphTo
+    public function cropTable()
     {
         return $this->morphTo();
     }
 
+    public function plant(): \Illuminate\Database\Eloquent\Relations\MorphToMany
+    {
+        return $this->morphedByMany(Plant::class, 'plantable');
+    }
+
+    public function tree(): \Illuminate\Database\Eloquent\Relations\MorphToMany
+    {
+        return $this->morphedByMany(Tree::class, 'plantable');
+    }
     /**
      * @return int
      */

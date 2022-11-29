@@ -21,6 +21,7 @@ class FarmLand extends Model
     protected $table = 'farm_lands';
     protected $guarded = ['id'];
 
+
     /**
      * @return belongsTo
      */

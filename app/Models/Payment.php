@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     public const CURRENCY_RUB = 'RUB';
+    public const CURRENCY_USD = 'USD';
     public const STATUS = 'pending';
     protected $guarded = ['id'];
 
