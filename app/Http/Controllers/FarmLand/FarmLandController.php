@@ -7,6 +7,7 @@ use App\Http\Requests\FarmLand\CreatePlantablesFarmLandRequest;
 use App\Http\Requests\FarmLand\EditBuildingFarmLandRequest;
 use App\Http\Requests\FarmLand\EditPlantablesFarmLandRequest;
 use App\Http\Requests\FarmLand\FarmLandCreateRequest;
+use App\Http\Requests\Paginate\FarmLandRequest;
 use App\Http\Resources\FarmLand\CreateFarmLandBuildingsResource;
 use App\Http\Resources\FarmLand\CreateFarmLandPlanResource;
 use App\Http\Resources\FarmLand\FarmLandResource;
@@ -45,13 +46,13 @@ class FarmLandController extends Controller
 
     /**
      * @param $id
-     * @param $paginate
+     * @param FarmLandRequest $request
      * @param FarmLandServices $farmLandServices
      * @return AnonymousResourceCollection
      */
-    public function getBuildings($id,$paginate,FarmLandServices $farmLandServices): AnonymousResourceCollection
+    public function getBuildings($id,FarmLandRequest $request,FarmLandServices $farmLandServices): AnonymousResourceCollection
     {
-        return GetFarmLandBuildingResource::collection($farmLandServices->getBuildings($id, $paginate));
+        return GetFarmLandBuildingResource::collection($farmLandServices->getBuildings($id, $request->getPage()));
     }
 
     /**
@@ -60,7 +61,7 @@ class FarmLandController extends Controller
      * @param CreateBuildingFarmLandRequest $CreateBuildingFarmLandRequest
      * @param $id
      * @param FarmLandServices $farmLandServices
-     * @return null
+     * @return CreateFarmLandBuildingsResource
      * @throws Exception
      */
     public function createBuildings(
@@ -75,15 +76,16 @@ class FarmLandController extends Controller
      * Получение посадок на ферме
      *
      * @param $id
+     * @param FarmLandRequest $request
      * @param FarmLandServices $farmLandServices
      * @return AnonymousResourceCollection
      */
     public function getPlantables(
         $id,
-        $paginate,
+        FarmLandRequest $request,
         FarmLandServices $farmLandServices
     ): AnonymousResourceCollection {
-        return GetFarmLandPlantResource::collection($farmLandServices->getPlantables($id,$paginate));
+        return GetFarmLandPlantResource::collection($farmLandServices->getPlantables($id,$request->getPage()));
     }
 
     /**
@@ -131,7 +133,7 @@ class FarmLandController extends Controller
      * Метод удаления посадки
      *
      * @param $id
-     * @param $idBuilding
+     * @param $idPlantable
      * @param FarmLandServices $farmLandServices
      * @return void
      */
@@ -145,7 +147,7 @@ class FarmLandController extends Controller
      * Метод удаления постройки с фермы
      *
      * @param $id
-     * @param $idPlantable
+     * @param $idBuilding
      * @param FarmLandServices $farmLandServices
      * @return void
      */

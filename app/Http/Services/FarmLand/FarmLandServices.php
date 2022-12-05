@@ -52,9 +52,9 @@ class FarmLandServices
      * @param $paginate
      * @return LengthAwarePaginator
      */
-    public function getBuildings($farmID,$paginate)
+    public function getBuildings($farmID,$page)
     {
-        return FarmBuilding::query()->where('farm_id', $farmID)->paginate($paginate);
+        return FarmBuilding::query()->where('farm_id', $farmID)->paginate($page);
     }
 
     /**
@@ -84,9 +84,9 @@ class FarmLandServices
      * @param $paginate
      * @return CursorPaginator
      */
-    public function getPlantables($id, $paginate): CursorPaginator
+    public function getPlantables($id, $page): CursorPaginator
     {
-        return FarmLandPlantable::query()->where('farmland_id', $id)->cursorPaginate($paginate);
+        return FarmLandPlantable::query()->where('farmland_id', $id)->cursorPaginate($page);
     }
 
     /**

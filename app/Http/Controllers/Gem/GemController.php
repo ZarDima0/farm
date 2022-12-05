@@ -15,15 +15,13 @@ class GemController extends Controller
 {
     /**
      * @param BuyGemsRequest $buyGemsRequest
-     * @param GemService $gemsServices
      * @param PaymentService $paymentService
      * @return CreatePaymentResource
      * @throws Exception
      */
-    public function buyGems(BuyGemsRequest $buyGemsRequest,GemService $gemsServices, PaymentService $paymentService): CreatePaymentResource
+    public function buyGems(BuyGemsRequest $buyGemsRequest, PaymentService $paymentService): CreatePaymentResource
     {
-        $createdPayment = $paymentService->createPayment($buyGemsRequest->getBuyGems(),$buyGemsRequest->getBuyGemsCurrency(),Auth::id());
-        return new CreatePaymentResource($gemsServices->buyGems($createdPayment, Auth::id()));
+        return new CreatePaymentResource($paymentService->createPayment($buyGemsRequest->getBuyGems(),$buyGemsRequest->getBuyGemsCurrency(),Auth::id()));
     }
 
     /**
@@ -31,18 +29,18 @@ class GemController extends Controller
      * @param PaymentService $paymentServices
      * @return bool|string
      */
-    public function webhook(WebhookRequest $request, PaymentService $paymentServices): bool|string
+    public function yooKassaWebhook(WebhookRequest $request, PaymentService $paymentServices): bool|string
     {
         return $paymentServices->processWebhook($request->getWebhook());
     }
 
     /**
-     * @param WebhookRequest $request
+     * @param WebhookSpripeRequest $request
      * @param PaymentService $paymentServices
      * @return bool|string
      */
-    public function spripeWebhook(WebhookSpripeRequest $request, PaymentService $paymentServices): bool|string
+    public function stripeWebhook(WebhookSpripeRequest $request, PaymentService $paymentServices): bool|string
     {
-        return $paymentServices->processWebhook($request->getWebhook());
+        return $paymentServices->processWebhookStripe($request->getWebhookStripe());
     }
 }

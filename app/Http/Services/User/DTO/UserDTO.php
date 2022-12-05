@@ -1,26 +1,23 @@
 <?php
 namespace App\Http\Services\User\DTO;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller;
 
 class UserDTO
 {
     /**
-     * @param string $name
-     * @param string $email
-     * @param string $password
+     * @var string
      */
-    public function __construct(
-        private string $name,
-        private string $email,
-        private string $password,
-    )
-    {
+    private string $name;
 
-    }
+    /**
+     * @var string
+     */
+    private string $email;
+
+    /**
+     * @var string
+     */
+    private string $password;
 
     /**
      * @return string
@@ -28,6 +25,16 @@ class UserDTO
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return $this
+     */
+    public function setName(string $name): UserDTO
+    {
+        $this->name = $name;
+        return $this;
     }
 
     /**
@@ -39,10 +46,30 @@ class UserDTO
     }
 
     /**
+     * @param string $email
+     * @return $this
+     */
+    public function setEmail(string $email): UserDTO
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getPassword(): string
     {
         return $this->password;
+    }
+
+    /**
+     * @param string $password
+     * @return $this
+     */
+    public function setPassword(string $password): UserDTO
+    {
+        $this->password = $password;
+        return $this;
     }
 }

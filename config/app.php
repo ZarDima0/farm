@@ -4,16 +4,15 @@ use Illuminate\Support\Facades\Facade;
 
 return [
 
+    'publishable_key' => env('STRIPE_PUBLISHABLE_KEY', 'Laravel'),
 
-    'publishable_key' => env('PUBLISHABLE_KEY', 'Laravel'),
+    'secret_key' => env('STRIPE_SECRET_KEY', 'Laravel'),
 
-    'secret_key' => env('SECRET_KEY', 'Laravel'),
+    'url_kassa' => env('YOOKASSA_URL_KASSA', 'Laravel'),
 
-    'url_kassa' => env('URL_KASSA', 'Laravel'),
+    'user_id_kassa' => env('YOOKASSA_USER_ID', 'Laravel'),
 
-    'user_id_kassa' => env('USER_ID_KASSA', 'Laravel'),
-
-    'token_kassa' => env('TOKEN_KASSA', 'Laravel'),
+    'token_kassa' => env('YOOKASSA_TOKEN_KASSA', 'Laravel'),
     /*
     |--------------------------------------------------------------------------
     | Application Name

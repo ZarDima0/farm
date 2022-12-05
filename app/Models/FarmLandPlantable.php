@@ -18,6 +18,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property int $count
  * @property Carbon $planted_at
  * @property Carbon $harvested_at
+ * @property MorphTo $plantable
  */
 class FarmLandPlantable extends Model
 {
@@ -27,19 +28,12 @@ class FarmLandPlantable extends Model
     protected $table = 'farmland_plantables';
     protected $guarded = ['id'];
 
-    public function cropTable()
+    /**
+     * @return MorphTo
+     */
+    public function plantable(): MorphTo
     {
         return $this->morphTo();
-    }
-
-    public function plant(): \Illuminate\Database\Eloquent\Relations\MorphToMany
-    {
-        return $this->morphedByMany(Plant::class, 'plantable');
-    }
-
-    public function tree(): \Illuminate\Database\Eloquent\Relations\MorphToMany
-    {
-        return $this->morphedByMany(Tree::class, 'plantable');
     }
     /**
      * @return int

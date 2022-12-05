@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests\User;
 
-use App\DTO\User\UserDTO;
+
+use App\Http\Services\User\DTO\UserDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserLoginRequest extends FormRequest
@@ -30,7 +31,10 @@ class UserLoginRequest extends FormRequest
         ];
     }
 
-    public function getLoginUserDTO()
+    /**
+     * @return UserDTO
+     */
+    public function getLoginUserDTO(): UserDTO
     {
         return (new UserDTO())
             ->setEmail($this->input('email'))

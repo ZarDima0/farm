@@ -15,12 +15,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $external_id
  * @property string $confirmation_url
  * @property string $description
+ * @property string $strategy
  */
 class Payment extends Model
 {
     public const CURRENCY_RUB = 'RUB';
     public const CURRENCY_USD = 'USD';
-    public const STATUS = 'pending';
+
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_SUCCEEDED = 'succeeded';
+
     protected $guarded = ['id'];
 
     /**
@@ -165,5 +169,21 @@ class Payment extends Model
     public function setDescription(string $description): void
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStrategy(): string
+    {
+        return $this->strategy;
+    }
+
+    /**
+     * @param string $strategy
+     */
+    public function setStrategy(string $strategy): void
+    {
+        $this->strategy = $strategy;
     }
 }

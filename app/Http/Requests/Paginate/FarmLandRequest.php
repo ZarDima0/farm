@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Gem;
+namespace App\Http\Requests\Paginate;
 
-use App\Http\Services\Payment\DTO\WebhookDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
-class WebhookSpripeRequest extends FormRequest
+class FarmLandRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,11 +28,8 @@ class WebhookSpripeRequest extends FormRequest
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function getWebhookStripe(): array
+    public function getPage()
     {
-        return $this->all();
+        return $this->input('page');
     }
 }

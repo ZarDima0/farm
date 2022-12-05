@@ -21,9 +21,9 @@ return new class extends Migration
             $table->integer('value');
             $table->string('currency');
             $table->string('external_id');
-            $table->string('confirmation_url');
+            $table->longText('confirmation_url');
             $table->string('description');
-
+            $table->string('strategy');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

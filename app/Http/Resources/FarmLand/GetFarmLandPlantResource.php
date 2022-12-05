@@ -30,6 +30,11 @@ class GetFarmLandPlantResource extends JsonResource
             'count' => $farmLandPlantable->getCount(),
             'planted_at' => Helpers::parseCarbon($farmLandPlantable->getPlantedAt()),
             'harvested_at' =>Helpers::parseCarbon($farmLandPlantable->getHarvestedAt()),
+            'crop' =>[
+                'id' => $farmLandPlantable->plantable->getId(),
+                'name' => $farmLandPlantable->plantable->getName(),
+                'tiles' => $farmLandPlantable->plantable->getTiles(),
+            ]
         ];
     }
 }

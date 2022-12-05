@@ -1,27 +1,32 @@
 <?php
 
-namespace App\Http\Services\Payment\YooKassa;
+namespace App\Http\Services\Payment\Stripe;
 
-class CreateResponse
+class CreateStripeResponse
 {
+    public string $externalId;
     public string $status;
     public int $value;
     public string $currency;
-    public string $externalId;
     public string $confirmationUrl;
     public string $description;
 
-    /**
-     * @param $body
-     */
     public function __construct($body)
     {
-        $this->status = $body->status;
-        $this->value = $body->amount->value;
-        $this->currency = $body->amount->currency;
+        $this->status = $body->object;
         $this->externalId = $body->id;
-        $this->confirmationUrl = $body->confirmation->confirmation_url;
-        $this->description = $body->description;
+        $this->value = $body->amount_total;
+        $this->currency = $body->currency;
+        $this->confirmationUrl = $body->url;
+        $this->description = 'Описание';
+    }
+
+    /**
+     * @return string
+     */
+    public function getExternalId(): string
+    {
+        return $this->externalId;
     }
 
     /**
@@ -46,14 +51,6 @@ class CreateResponse
     public function getCurrency(): string
     {
         return $this->currency;
-    }
-
-    /**
-     * @return string
-     */
-    public function getExternalId(): string
-    {
-        return $this->externalId;
     }
 
     /**

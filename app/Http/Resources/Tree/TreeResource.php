@@ -24,7 +24,7 @@ class TreeResource extends JsonResource
             'name' => $tree->getName(),
             'tiles' => $tree->getTiles(),
             'height' => $tree->getHeight(),
-            'crop' => $tree->crop() ? null : $tree->crop(),
+            'crop' => $tree->crop() ?? null,
         ];
     }
 }
