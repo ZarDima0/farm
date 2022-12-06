@@ -19,9 +19,9 @@ class GemController extends Controller
      * @return CreatePaymentResource
      * @throws Exception
      */
-    public function buyGems(BuyGemsRequest $buyGemsRequest, PaymentService $paymentService): CreatePaymentResource
+    public function buyGems(BuyGemsRequest $buyGemsRequest, GemService $gemService): CreatePaymentResource
     {
-        return new CreatePaymentResource($paymentService->createPayment($buyGemsRequest->getBuyGems(),$buyGemsRequest->getBuyGemsCurrency(),Auth::id()));
+        return new CreatePaymentResource($gemService->purchaseGems($buyGemsRequest->getBuyGems(), $buyGemsRequest->getBuyGemsCurrency(), Auth::id()));
     }
 
     /**
@@ -41,6 +41,6 @@ class GemController extends Controller
      */
     public function stripeWebhook(WebhookSpripeRequest $request, PaymentService $paymentServices): bool|string
     {
-        return $paymentServices->processWebhookStripe($request->getWebhookStripe());
+        return $paymentServices->processWebhookStripe($request->getStripeEvent());
     }
 }

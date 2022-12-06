@@ -25,9 +25,11 @@ class PaymentService
     /**
      * @param int $amount
      * @param string $currency
+     * @param WalletTransaction $walletTransaction
+     * @return Payment|Model
      * @throws Exception
      */
-    public function createPayment(int $amount, string $currency, int $userId): Model|Builder
+    public function createPayment(int $amount, string $currency, WalletTransaction $walletTransaction): Payment|Model
     {
         $strategy = match ($currency) {
             Payment::CURRENCY_RUB => new YooKassa(),
@@ -36,8 +38,19 @@ class PaymentService
         };
 
         $context = new Context($strategy);
+        $externalPayment = $context->startService($amount);
 
-        return (new GemService())->buyGems($context->startService($amount), $userId, $strategy);
+        return Payment::query()->create([
+            'user_id' => $walletTransaction->getUserId(),
+            'transactions_id' => $walletTransaction->getId(),
+            'status' => PaymentStatusConverter::convert($externalPayment->getStatus(), get_class($strategy)),
+            'value' => $amount,
+            'currency' => $currency,
+            'external_id' => $externalPayment->getExternalId(),
+            'confirmation_url' => $externalPayment->getConfirmationUrl(),
+            'description' => $externalPayment->getDescription() ?? null,
+            'strategy' => get_class($strategy),
+        ]);
     }
 
     /**
@@ -46,75 +59,26 @@ class PaymentService
      */
     public function processWebhook(WebhookDTO $webhookDTO): Response|false
     {
-        Payment::query()->where('external_id', '=', $webhookDTO->getIdNotifications())
-            ->update([
-                'status' => Payment::STATUS_SUCCEEDED,
-            ]);
-
-        /** @var Payment $payments */
-        $payments = Payment::query()->where('external_id', '=', $webhookDTO->getIdNotifications())->first();
-
-        WalletTransaction::query()->where('user_id', '=', $payments->getUserId())
-            ->update([
-                'status' => Payment::STATUS_SUCCEEDED
-            ]);
-
-        /** @var Wallet $wallet */
-        $wallet = Wallet::query()->where('user_id', '=', $payments->getUserId())->first();
-
-        ProccessWalletReplenishment::dispatch(
-            $payments->getUserId(),
-            $wallet->getGemAmount(),
-            $payments->getValue()
-        );
+        ProccessWalletReplenishment::dispatch($webhookDTO->getIdNotifications());
 
         return response('', 200);
     }
 
     /**
-     * @param $webhook
+     * @param StripeEvent $event
      * @return Application|ResponseFactory|Response|void
      */
-    public function processWebhookStripe($webhook)
+    public function processWebhookStripe(StripeEvent $event): Response
     {
         \Stripe\Stripe::setApiKey(config('app.secret_key'));
 
-        $event = null;
-
-        try {
-            $event = \Stripe\Event::constructFrom($webhook);
-        } catch (\UnexpectedValueException $e) {
-            // Invalid payload
-            http_response_code(400);
-            exit();
-        }
         switch ($event->type) {
             case 'checkout.session.completed':
                 $paymentIntent = $event->data->object;
-
-                Payment::query()->where('external_id', '=', $paymentIntent->id)
-                    ->update([
-                        'status' => Payment::STATUS_SUCCEEDED
-                    ]);
-                /** @var Payment $payments */
-                $payments = Payment::query()->where('external_id', '=', $paymentIntent->id)->first();
-
-                WalletTransaction::query()->where('user_id', '=', $payments->id)
-                    ->update([
-                        'status' => Payment::STATUS_SUCCEEDED
-                    ]);
-
-                /** @var Wallet $wallet */
-                $wallet = Wallet::query()->where('user_id', '=', $payments->user_id)->first();
-
-                ProccessWalletReplenishment::dispatch(
-                    $payments->getUserId(),
-                    $wallet->gem_amount,
-                    $payments->getValue()
-                );
+                ProccessWalletReplenishment::dispatch($paymentIntent->id);
                 break;
             default:
-                echo 'Received unknown event type ' . $event->type;
+                Log::critical('Received unknown event type ' . $event->type);
         }
 
         return response('', 200);

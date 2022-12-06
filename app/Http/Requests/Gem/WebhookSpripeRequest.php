@@ -30,10 +30,18 @@ class WebhookSpripeRequest extends FormRequest
     }
 
     /**
-     * @return array
+     * @return StripeEvent
      */
-    public function getWebhookStripe(): array
+    public function getStripeEvent(): StripeEvent
     {
-        return $this->all();
+        try {
+            $event = \Stripe\Event::constructFrom($this->all());
+        } catch (\UnexpectedValueException $e) {
+            // Invalid payload
+            http_response_code(400);
+            exit();
+        }
+
+        return $event;
     }
 }
