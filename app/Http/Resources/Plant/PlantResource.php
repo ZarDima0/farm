@@ -17,13 +17,12 @@ class PlantResource extends JsonResource
     */
     public function toArray($request)
     {
-        $crop =  $this->resource->crop;
-
         return [
             'id' => $this->resource->getId(),
             'name' => $this->resource->getName(),
             'is_perennial' => $this->resource->isIsPerennial(),
             'is_harvestable' => $this->resource->isIsHarvestable(),
+            'crop' => $this->resource->crop(),
         ];
     }
 }

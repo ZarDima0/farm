@@ -28,6 +28,11 @@ class CreateFarmLandPlanResource extends JsonResource
             'count' => $this->resource->getCount(),
             'planted_at' => $this->resource->getPlantedAt(),
             'harvested_at' => $this->resource->getHarvestedAt(),
+            'crop' =>[
+                'id' => $this->resource->plantable->getId(),
+                'name' => $this->resource->plantable->getName(),
+                'tiles' => $this->resource->plantable->getTiles(),
+            ]
         ];
     }
 }

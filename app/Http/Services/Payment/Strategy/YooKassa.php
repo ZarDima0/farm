@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Payment\Strategy;
 
-use App\Http\Services\Payment\YooKassa\CreateResponse;
+use App\Http\Services\Payment\YooKassa\CreateYooKassaResponse;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Http;
 
@@ -28,6 +28,6 @@ class YooKassa implements InterfaceStrategy
             ]);
         $body = json_decode($response->body());
 
-        return new CreateResponse($body);
+        return new CreateYooKassaResponse($body);
     }
 }

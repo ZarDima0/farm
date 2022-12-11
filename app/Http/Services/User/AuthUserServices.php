@@ -6,6 +6,7 @@ use App\Events\EventCreateWallet;
 use App\Http\Services\User\DTO\UserDTO;
 use App\Models\User;
 use App\Models\Wallet;
+use Illuminate\Support\Facades\Hash;
 
 class AuthUserServices
 {
@@ -19,7 +20,7 @@ class AuthUserServices
         $input = [
             'name' => $userDTO->getName(),
             'email' => $userDTO->getEmail(),
-            'password' => $userDTO->getPassword(),
+            'password' => Hash::make($userDTO->getPassword()),
         ];
 
         /** @var  User $user */
@@ -40,11 +41,12 @@ class AuthUserServices
 
     /**
      * @param UserDTO $userDTO
-     * @return mixed
      */
     public function login(UserDTO $userDTO)
     {
-        $user = User::where('email', $userDTO->getEmail())->first();
+        $user = User::query()
+            ->where('email', $userDTO->getEmail())
+            ->first();
         $token = $user->createToken('app-token')->plainTextToken;
         $user->token = $token;
         return $user;
