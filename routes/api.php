@@ -4,6 +4,7 @@ use App\Http\Controllers\Building\BuildingController;
 use App\Http\Controllers\FarmLand\FarmLandController;
 use App\Http\Controllers\Gem\GemController;
 use App\Http\Controllers\Plant\PlantController;
+use App\Http\Controllers\Shop\ShopController;
 use App\Http\Controllers\Tree\TreeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +45,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('gems')
         ->group(function () {
             Route::post('/buy', [GemController::class, 'buyGems'])->name('gem.buy');
+        });
+    Route::prefix('shop')
+        ->group(function () {
+            Route::post('/buy/premium', [ShopController::class, 'buyPremium'])->name('buy.premium');
+            Route::get('/history', [ShopController::class, 'history'])->name('buy.history');
         });
 });
 

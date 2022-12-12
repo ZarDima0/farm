@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -15,11 +16,14 @@ use Laravel\Sanctum\HasApiTokens;
  * @property int $id
  * @property string $name
  * @property string $email
+ * @property boolean $premium
+ * @property carbon|null $endPremium
  */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public $timestamps = false;
     /**
      * The attributes that are mass assignable.
      *
@@ -112,5 +116,37 @@ class User extends Authenticatable
     public function setEmail(string $email): void
     {
         $this->email = $email;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPremium(): bool
+    {
+        return $this->premium;
+    }
+
+    /**
+     * @param bool $premium
+     */
+    public function setPremium(bool $premium): void
+    {
+        $this->premium = $premium;
+    }
+
+    /**
+     * @return Carbon|null
+     */
+    public function getEndPremium(): ?Carbon
+    {
+        return $this->endPremium;
+    }
+
+    /**
+     * @param Carbon|null $endPremium
+     */
+    public function setEndPremium(?Carbon $endPremium): void
+    {
+        $this->endPremium = $endPremium;
     }
 }
