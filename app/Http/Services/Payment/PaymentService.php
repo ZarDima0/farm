@@ -2,21 +2,18 @@
 
 namespace App\Http\Services\Payment;
 
-use App\Http\Services\Gem\GemService;
+use App\Http\Requests\Gem\WebhookSpripeRequest;
 use App\Http\Services\Payment\DTO\WebhookDTO;
 use App\Http\Services\Payment\Strategy\Context;
 use App\Http\Services\Payment\Strategy\Stripe;
 use App\Http\Services\Payment\Strategy\YooKassa;
 use App\Jobs\ProccessWalletReplenishment;
 use App\Models\Payment;
-use App\Models\Wallet;
 use App\Models\WalletTransaction;
 use Exception;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class PaymentService
 {
@@ -59,16 +56,17 @@ class PaymentService
      */
     public function processWebhook(WebhookDTO $webhookDTO): Response|false
     {
+        Log::debug($webhookDTO->getIdNotifications());
         ProccessWalletReplenishment::dispatch($webhookDTO->getIdNotifications());
 
         return response('', 200);
     }
 
     /**
-     * @param StripeEvent $event
-     * @return Application|ResponseFactory|Response|void
+     * @param WebhookSpripeRequest $event
+     * @return Response
      */
-    public function processWebhookStripe(StripeEvent $event): Response
+    public function processWebhookStripe(WebhookSpripeRequest $event): Response
     {
         \Stripe\Stripe::setApiKey(config('app.secret_key'));
 

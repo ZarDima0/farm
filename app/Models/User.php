@@ -17,7 +17,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $name
  * @property string $email
  * @property boolean $premium
- * @property carbon|null $endPremium
+ * @property carbon|null $end_premium
  */
 class User extends Authenticatable
 {
@@ -135,18 +135,18 @@ class User extends Authenticatable
     }
 
     /**
-     * @return Carbon|null
+     * @return string
      */
-    public function getEndPremium(): ?Carbon
+    public function getEndPremium(): string
     {
-        return $this->endPremium;
+        return $this->end_premium;
     }
 
     /**
-     * @param Carbon|null $endPremium
+     * @param Carbon|null $end_premium
      */
-    public function setEndPremium(?Carbon $endPremium): void
+    public function setEndPremium(?Carbon $end_premium): void
     {
-        $this->endPremium = $endPremium;
+        $this->end_premium = $end_premium;
     }
 }

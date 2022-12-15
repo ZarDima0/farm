@@ -12,6 +12,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class ProccessWalletReplenishment implements ShouldQueue
 {
@@ -20,9 +22,6 @@ class ProccessWalletReplenishment implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param $userId
-     * @param $gemAmount
-     * @param $value
      */
     public function __construct(private string $externalId)
     {
@@ -35,38 +34,26 @@ class ProccessWalletReplenishment implements ShouldQueue
      */
     public function handle()
     {
-        try {
-            DB::beginTransaction();
+        Log::critical($this->externalId);
+        Payment::query()->where('external_id', '=', $this->externalId)
+            ->update([
+                'status' => Payment::STATUS_SUCCEEDED,
+            ]);
 
-            Payment::query()->where('external_id', '=', $this->externalId)
-                ->update([
-                    'status' => Payment::STATUS_SUCCEEDED,
-                ]);
+        /** @var Payment $payments */
+        $payments = Payment::query()->where('external_id', '=', $this->externalId)->first();
 
-            /** @var Payment $payments */
-            $payments = Payment::query()->where('external_id', '=', $this->externalId)->first();
+        WalletTransaction::query()->where('user_id', '=', $payments->getUserId())
+            ->update([
+                'status' => Payment::STATUS_SUCCEEDED
+            ]);
 
-            WalletTransaction::query()->where('user_id', '=', $payments->getUserId())
-                ->update([
-                    'status' => Payment::STATUS_SUCCEEDED
-                ]);
+        /** @var Wallet $wallet */
+        $wallet = Wallet::query()->where('user_id', '=', $payments->getUserId())->first();
 
-            /** @var Wallet $wallet */
-            $wallet = Wallet::query()->where('user_id', '=', $payments->getUserId())->first();
-
-            Wallet::query()->where('user_id', '=', $wallet->getUserId())
-                ->update([
-                    'gem_amount' => $wallet->getGemAmount() + $payments->getValue(),
-                ]);
-
-            DB::commit();
-
-        } catch (\Throwable $exception) {
-            Log::critical('Не удалось зачислить купленные гемы по платежу №' . $payments->getId());
-            Log::critical($exception->getMessage());
-            Log::critical($exception->getTraceAsString());
-            throw $exception;
-        }
-
+        Wallet::query()->where('user_id', '=', $wallet->getUserId())
+            ->update([
+                'gem_amount' => $wallet->getGemAmount() + $payments->getValue(),
+            ]);
     }
 }

@@ -16,18 +16,27 @@ class PaymentStatusConverter
         };
     }
 
+    /**
+     * @param string $externalStatus
+     * @return string
+     */
     private static function convertYooKassa(string $externalStatus): string
     {
         return match($externalStatus) {
             'success' => Payment::STATUS_SUCCEEDED,
-            'pending' => Payment::STATUS_PENDING,
+            'pending' => Payment::STATUS_PENDING
         };
     }
 
+    /**
+     * @param string $externalStatus
+     * @return string
+     */
     private static function convertStripe(string $externalStatus): string
     {
         return match($externalStatus) {
-            'checkout.session.completed' => Payment::STATUS_SUCCEEDED,
+            'success' => Payment::STATUS_SUCCEEDED,
+            'checkout.session' => Payment::STATUS_PENDING
         };
     }
 }

@@ -2,11 +2,12 @@
 namespace App\Http\Resources\Shop;
 
 use App\Models\Premium;
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BuyPremiumResource extends JsonResource
 {
-    /** @var Premium */
+    /** @var User */
     public $resource;
 
     /**
@@ -19,7 +20,9 @@ class BuyPremiumResource extends JsonResource
     {
         return [
             'id' => $this->resource->getId(),
-            'title' => $this->resource->getName(),
+            'name' => $this->resource->getName(),
+            'premium' => $this->resource->isPremium(),
+            'endPremium' => $this->resource->getEndPremium(),
         ];
     }
 }

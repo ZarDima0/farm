@@ -3,59 +3,64 @@
 namespace App\Http\Services\Shop;
 
 use App\Http\Services\Payment\PaymentService;
+use App\Http\Services\Wallet\WalletServices;
 use App\Models\Payment;
+use App\Models\Premium;
 use App\Models\Shop;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Models\WalletTransaction;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder as BuilderAlias;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class ShopServices
 {
+
     /**
      * @param int $idProduct
      * @param int $userId
-     * @return false|void
      */
-    public function buyPremiun( int $idProduct, int $userId)
+    public function buyPremiun(int $idProduct, int $userId)
     {
         DB::beginTransaction();
 
-        $shop = Shop::query()->where('product_id','=' , $idProduct)->first();
+        $shop = Shop::query()->where('product_id', '=', $idProduct)->first();
 
         $user = User::query()->where('id', $userId)->first();
 
-        $wallet =  Wallet::query()->where('user_id',$userId)->first();
+        $walletServices = new WalletServices();
+        $walletServices->writeOff($user, $shop);
 
-        if ($wallet->getGemAmount() - $shop->getCost() < 0) {
-            return false;
+
+
+        $userUpdatePremium = function ($user, $shop, $date) {
+            $user->setEndPremium($date->addDays($shop->product->amount_days));
+            $user->setPremium(true);
+            $user->save();
+        };
+
+        $date = Carbon::today();
+        if ($user->getEndPremium() == null) {
+            $userUpdatePremium($user, $shop, $date);
         }
-
-        WalletTransaction::query()->where('user_id',$userId)
-            ->update([
-                'type' => WalletTransaction::TYPE_WRITE_OFF,
-                'status' => Payment::STATUS_SUCCEEDED,
-                'gem_amount' => $shop->getCost()
-            ]);
-
-        $wallet->setGemAmount($wallet->getGemAmount() - $shop->getCost());
-        $wallet->save();
-
-        $user->setPremium(true);
-        $user->setEndPremium($shop->product->getAmountDays());
-        $user->save();
-
+        $userUpdatePremium($user, $shop, $date);
         DB::commit();
+        return $user;
     }
 
     /**
      * @param int $userId
      * @return Collection|array
      */
-    public function history( int $userId): Collection|array
+    public function history(int $userId): Collection|array
     {
-        return WalletTransaction::query()->where('user_id', $userId)->get();
+        return WalletTransaction::query()
+            ->where('user_id', $userId)
+            ->where('type', 'buy')
+            ->where('status', 'succeeded')
+            ->get();
     }
 }

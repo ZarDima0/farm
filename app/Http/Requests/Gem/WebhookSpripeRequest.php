@@ -29,10 +29,8 @@ class WebhookSpripeRequest extends FormRequest
         ];
     }
 
-    /**
-     * @return StripeEvent
-     */
-    public function getStripeEvent(): StripeEvent
+
+    public function getStripeEvent()
     {
         try {
             $event = \Stripe\Event::constructFrom($this->all());
