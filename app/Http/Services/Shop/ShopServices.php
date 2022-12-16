@@ -34,8 +34,6 @@ class ShopServices
         $walletServices = new WalletServices();
         $walletServices->writeOff($user, $shop);
 
-
-
         $userUpdatePremium = function ($user, $shop, $date) {
             $user->setEndPremium($date->addDays($shop->product->amount_days));
             $user->setPremium(true);

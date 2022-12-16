@@ -6,6 +6,7 @@ use App\Http\Controllers\Gem\GemController;
 use App\Http\Controllers\Plant\PlantController;
 use App\Http\Controllers\Shop\ShopController;
 use App\Http\Controllers\Tree\TreeController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\User\AuthController;
@@ -51,6 +52,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::post('/buy/premium', [ShopController::class, 'buyPremium'])->name('buy.premium');
             Route::get('/history', [ShopController::class, 'history'])->name('buy.history');
         });
+    Route::prefix('user')
+        ->group(function () {
+            Route::get('/show', [UserController::class, 'show'])->name('user.show');
+        });
 });
 
 Route::prefix('payments')
@@ -68,9 +73,5 @@ Route::prefix('payments')
 Route::prefix('/user')->group(callback: function () {
     Route::post('/register', [AuthController::class, 'register'])->name('user.register');
     Route::post('/login', [AuthController::class, 'login'])->name('user.login');
-});
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
 });
 

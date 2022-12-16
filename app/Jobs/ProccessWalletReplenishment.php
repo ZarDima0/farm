@@ -34,7 +34,6 @@ class ProccessWalletReplenishment implements ShouldQueue
      */
     public function handle()
     {
-        Log::critical($this->externalId);
         Payment::query()->where('external_id', '=', $this->externalId)
             ->update([
                 'status' => Payment::STATUS_SUCCEEDED,
