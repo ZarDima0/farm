@@ -12,6 +12,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class ProccessWalletReplenishment implements ShouldQueue
 {
@@ -20,9 +22,6 @@ class ProccessWalletReplenishment implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param $userId
-     * @param $gemAmount
-     * @param $value
      */
     public function __construct(private string $externalId)
     {
@@ -67,6 +66,5 @@ class ProccessWalletReplenishment implements ShouldQueue
             Log::critical($exception->getTraceAsString());
             throw $exception;
         }
-
     }
 }

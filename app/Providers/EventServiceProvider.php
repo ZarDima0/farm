@@ -19,9 +19,6 @@ class EventServiceProvider extends ServiceProvider
         EventCreateFarmLand::class => [
             ListenerCreateFarmLand::class
         ],
-        EventCreateWallet::class => [
-            ListenerCreateWallet::class
-        ]
     ];
 
     /**

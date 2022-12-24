@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
 class WalletTransaction extends Model
 {
     public const TYPE_ADD_GEM = 'replenishment';
+    public const TYPE_WRITE_OFF = 'cansel';
+    public const TYPE_BUY = 'buy';
 
     protected $guarded = ['id'];
 

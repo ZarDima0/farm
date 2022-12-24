@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Gem;
+namespace App\Http\Requests\Shop;
 
-use App\Http\Services\Payment\DTO\WebhookDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
-class WebhookSpripeRequest extends FormRequest
+class BuyPremiunRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,21 +24,12 @@ class WebhookSpripeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'idProduct' => 'integer|required'
         ];
     }
 
-
-    public function getStripeEvent()
+    public function getProductId()
     {
-        try {
-            $event = \Stripe\Event::constructFrom($this->all());
-        } catch (\UnexpectedValueException $e) {
-            // Invalid payload
-            http_response_code(400);
-            exit();
-        }
-
-        return $event;
+        return $this->input('idProduct');
     }
 }
