@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\Premium\ProcessEndPremium;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
@@ -18,19 +19,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
-            $userList = User::query()->get();
-
-            /** @var User $user */
-            foreach ($userList as $user) {
-                if ($user->end_premium == null) {
-                    continue;
-                }
-                if (Carbon::parse($user->end_premium) < Carbon::today()) {
-                    $user->setPremium(false);
-                    $user->save();
-                }
-            }
-        })->everyMinute();
+            ProcessEndPremium::dispatch();
+        })->everyFiveMinutes();
     }
 
     /**
@@ -40,7 +30,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__ . '/Commands');
+        $this->load(__DIR__. '/Commands');
 
         require base_path('routes/console.php');
     }

@@ -34,25 +34,37 @@ class ProccessWalletReplenishment implements ShouldQueue
      */
     public function handle()
     {
-        Payment::query()->where('external_id', '=', $this->externalId)
-            ->update([
-                'status' => Payment::STATUS_SUCCEEDED,
-            ]);
+        try {
+            DB::beginTransaction();
 
-        /** @var Payment $payments */
-        $payments = Payment::query()->where('external_id', '=', $this->externalId)->first();
+            Payment::query()->where('external_id', '=', $this->externalId)
+                ->update([
+                    'status' => Payment::STATUS_SUCCEEDED,
+                ]);
 
-        WalletTransaction::query()->where('user_id', '=', $payments->getUserId())
-            ->update([
-                'status' => Payment::STATUS_SUCCEEDED
-            ]);
+            /** @var Payment $payments */
+            $payments = Payment::query()->where('external_id', '=', $this->externalId)->first();
 
-        /** @var Wallet $wallet */
-        $wallet = Wallet::query()->where('user_id', '=', $payments->getUserId())->first();
+            WalletTransaction::query()->where('user_id', '=', $payments->getUserId())
+                ->update([
+                    'status' => Payment::STATUS_SUCCEEDED
+                ]);
 
-        Wallet::query()->where('user_id', '=', $wallet->getUserId())
-            ->update([
-                'gem_amount' => $wallet->getGemAmount() + $payments->getValue(),
-            ]);
+            /** @var Wallet $wallet */
+            $wallet = Wallet::query()->where('user_id', '=', $payments->getUserId())->first();
+
+            Wallet::query()->where('user_id', '=', $wallet->getUserId())
+                ->update([
+                    'gem_amount' => $wallet->getGemAmount() + $payments->getValue(),
+                ]);
+
+            DB::commit();
+
+        } catch (\Throwable $exception) {
+            Log::critical('Не удалось зачислить купленные гемы по платежу №' . $payments->getId());
+            Log::critical($exception->getMessage());
+            Log::critical($exception->getTraceAsString());
+            throw $exception;
+        }
     }
 }

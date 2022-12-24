@@ -35,7 +35,10 @@ class ShopServices
         $walletServices->writeOff($user, $shop);
 
         $userUpdatePremium = function ($user, $shop, $date) {
-            $user->setEndPremium($date->addDays($shop->product->amount_days));
+            if ($user->getEndPremium() == null) {
+                $user->setEndPremium($date->addDays($shop->product->amount_days));
+            }
+            $user->setEndPremium(Carbon::parse($user->getEndPremium())->addDay($shop->product->amount_days));
             $user->setPremium(true);
             $user->save();
         };

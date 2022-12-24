@@ -6,6 +6,7 @@ use App\Models\Shop;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Models\WalletTransaction;
+use Exception;
 
 class WalletServices
 {
@@ -20,7 +21,7 @@ class WalletServices
         $wallet = Wallet::query()->where('user_id', $user->getId())->first();
 
         if ($wallet->getGemAmount() - $shop->getCost() < 0) {
-            return false;
+            throw new Exception('Недостаточно гемов');
         }
         WalletTransaction::query()->where('user_id',$wallet->getUserId())
             ->update([
@@ -29,21 +30,9 @@ class WalletServices
                 'gem_amount' => $shop->getCost()
             ]);
 
-        WalletTransaction::query()
-            ->create([
-                'user_id' => $user->getId(),
-                'type' => WalletTransaction::TYPE_BUY,
-                'status' => Payment::STATUS_SUCCEEDED,
-                'gem_amount' => $shop->getCost()
-            ]);
-
         $wallet->update([
             'gem_amount' => $wallet->getGemAmount() - $shop->getCost()
         ]);
         $wallet->save();
-
-        if ($wallet) {
-            return  true;
-        }
     }
 }
