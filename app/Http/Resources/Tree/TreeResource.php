@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Resources\Tree;
 
+use App\Helpers\Helpers;
 use App\Models\Crop;
 use App\Models\Tree;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -24,7 +25,13 @@ class TreeResource extends JsonResource
             'name' => $tree->getName(),
             'tiles' => $tree->getTiles(),
             'height' => $tree->getHeight(),
-            'crop' => $tree->crop() ?? null,
+                'crop' => [
+                'id' => $tree->crop?->getId(),
+                'plantableType' => Helpers::convertMorpf($tree->crop?->getPlantableType()),
+                'plantableId' => $tree->crop?->getPlantableId(),
+                'name' => $tree->crop?->getName(),
+                'yieldPerTile' => $tree->crop?->getYieldPerTile(),
+            ],
         ];
     }
 }

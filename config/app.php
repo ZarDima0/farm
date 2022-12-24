@@ -190,7 +190,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-
+        Vyuldashev\LaravelOpenApi\OpenApiServiceProvider::class,
         /*
          * Package Service Providers...
          */

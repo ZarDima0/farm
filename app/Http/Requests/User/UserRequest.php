@@ -36,6 +36,9 @@ class UserRequest extends FormRequest
      */
     public function getUserRegisterDTO():UserDTO
     {
-        return (new UserDTO($this->input('name'),$this->input('email'),$this->input('password')));
+        return (new UserDTO())
+            ->setName($this->input('name'))
+            ->setEmail($this->input('email'))
+            ->setPassword($this->input('password'));
     }
 }

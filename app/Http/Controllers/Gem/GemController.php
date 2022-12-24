@@ -8,16 +8,27 @@ use App\Http\Requests\Gem\WebhookSpripeRequest;
 use App\Http\Resources\Gem\CreatePaymentResource;
 use App\Http\Services\Gem\GemService;
 use App\Http\Services\Payment\PaymentService;
-use Exception;
+use App\OpenApi\RequestBodies\Gem\BuyGemsRequestBody;
+use App\OpenApi\Responses\DefaultResponses\AuthorizeErrorResponse;
+use App\OpenApi\Responses\DefaultResponses\ServerErrorResponse;
+use App\OpenApi\Responses\FarmLand\FarmLandResponse;
+use App\OpenApi\SecuritySchemes\BearerTokenSecurityScheme;
 use Illuminate\Support\Facades\Auth;
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 
+#[OpenApi\PathItem]
 class GemController extends Controller
 {
+
+    #[OpenApi\Operation(tags: ['Gems'], security: BearerTokenSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: BuyGemsRequestBody::class)]
+    #[OpenApi\Response(factory: FarmLandResponse::class, statusCode: 200)]
+    #[OpenApi\Response(factory: AuthorizeErrorResponse::class, statusCode: 401)]
+    #[OpenApi\Response(factory: ServerErrorResponse::class, statusCode: 500)]
     /**
      * @param BuyGemsRequest $buyGemsRequest
-     * @param PaymentService $paymentService
+     * @param GemService $gemService
      * @return CreatePaymentResource
-     * @throws Exception
      */
     public function buyGems(BuyGemsRequest $buyGemsRequest, GemService $gemService): CreatePaymentResource
     {
