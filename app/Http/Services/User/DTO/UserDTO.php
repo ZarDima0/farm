@@ -5,9 +5,9 @@ namespace App\Http\Services\User\DTO;
 class UserDTO
 {
     /**
-     * @var string
+     * @var string|null
      */
-    private string $name;
+    private ?string $name = null;
 
     /**
      * @var string

@@ -12,6 +12,20 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('swagger', function () {
+
+    $collections = config('openapi.collections');
+    $collectionName = 'default';
+    foreach ($collections as $collection => $values) {
+        if ($collectionName == $collection) {
+            return view('swagger-ui', ['collectionName' => $collectionName]);
+        }
+    }
+
+    abort(404);
+})->where([
+    'uiType' => 'swagger-ui|redoc',
+]);
 
 Route::get('/', function () {
     return view('welcome');

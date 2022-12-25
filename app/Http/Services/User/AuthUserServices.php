@@ -22,7 +22,6 @@ class AuthUserServices
             'email' => $userDTO->getEmail(),
             'password' => Hash::make($userDTO->getPassword()),
         ];
-
         /** @var  User $user */
         $user = User::query()->create($input);
 
