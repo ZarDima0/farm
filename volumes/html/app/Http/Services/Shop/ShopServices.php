@@ -6,6 +6,7 @@ use App\Http\Services\Payment\PaymentService;
 use App\Http\Services\Wallet\WalletServices;
 use App\Models\Payment;
 use App\Models\Premium;
+use App\Models\Product;
 use App\Models\Shop;
 use App\Models\User;
 use App\Models\Wallet;
@@ -27,12 +28,11 @@ class ShopServices
     {
         DB::beginTransaction();
 
-        $shop = Shop::query()->where('product_id', '=', $idProduct)->first();
+        $shop = Product::query()->where('product_id', '=', $idProduct)->first();
 
         $user = User::query()->where('id', $userId)->first();
 
-        $walletServices = new WalletServices();
-        $walletServices->writeOff($user, $shop);
+        $walletServices = (new WalletServices())->writeOff($user,$shop);
 
         $userUpdatePremium = function ($user, $shop, $date) {
             if ($user->getEndPremium() == null) {
@@ -60,8 +60,8 @@ class ShopServices
     {
         return WalletTransaction::query()
             ->where('user_id', $userId)
-            ->where('type', 'buy')
-            ->where('status', 'succeeded')
+            ->where('type', WalletTransaction::TYPE_BUY)
+            ->where('status', WalletTransaction::TYPE_SUCCEEDED)
             ->get();
     }
 }

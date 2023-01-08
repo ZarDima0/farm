@@ -5,6 +5,7 @@ namespace App\Http\Services\Payment\Strategy;
 use App\Http\Services\Payment\YooKassa\CreateYooKassaResponse;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class YooKassa implements InterfaceStrategy
 {
@@ -27,6 +28,10 @@ class YooKassa implements InterfaceStrategy
                 'description' => 'Заказ №1',
             ]);
         $body = json_decode($response->body());
+        if ($body->type = 'error') {
+            Log::error('Ошибка:' . $body->description);
+            throw new \Exception('Ошибка:' . $body->description);
+        }
 
         return new CreateYooKassaResponse($body);
     }

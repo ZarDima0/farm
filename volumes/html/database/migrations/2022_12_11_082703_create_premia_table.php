@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('premia', function (Blueprint $table) {
+        Schema::create('premiums', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('name');
             $table->string('description');
-            $table->integer('amount_days');
+            $table->integer('days_amount');
             $table->timestamps();
         });
     }

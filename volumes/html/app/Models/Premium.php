@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id
- * @property string $title
+ * @property string $name
  * @property string $description
- * @property int $amountDays
+ * @property int $daysAmount
  */
+
 class Premium extends Model
 {
     use HasFactory;
@@ -40,17 +41,19 @@ class Premium extends Model
     /**
      * @return string
      */
-    public function getTitle(): string
+    public function getName(): string
     {
-        return $this->title;
+        return $this->name;
     }
 
     /**
-     * @param string $title
+     * @param string $name
      */
-    public function setTitle(string $title): void
+    public function setName(string $name): Premium
     {
-        $this->title = $title;
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -64,24 +67,28 @@ class Premium extends Model
     /**
      * @param string $description
      */
-    public function setDescription(string $description): void
+    public function setDescription(string $description): Premium
     {
         $this->description = $description;
+
+        return $this;
     }
 
     /**
      * @return int
      */
-    public function getAmountDays(): int
+    public function getDaysAmount(): int
     {
-        return $this->amountDays;
+        return $this->daysAmount;
     }
 
     /**
-     * @param int $amountDays
+     * @param int $daysAmount
      */
-    public function setAmountDays(int $amountDays): void
+    public function setDaysAmount(int $daysAmount): Premium
     {
-        $this->amountDays = $amountDays;
+        $this->daysAmount = $daysAmount;
+
+        return $this;
     }
 }
