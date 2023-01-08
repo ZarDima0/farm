@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * @property int $id
- * @property integer $cost
+ * @property integer $price
  * @property boolean $availability
- * @property string $productType
- * @property integer $productId
+ * @property string $entityType
+ * @property integer $entityId
  */
-class Shop extends Model
+class Product extends Model
 {
     use HasFactory;
 
@@ -44,17 +44,20 @@ class Shop extends Model
     /**
      * @return int
      */
-    public function getCost(): int
+    public function getPrice(): int
     {
-        return $this->cost;
+        return $this->price;
     }
 
     /**
-     * @param int $cost
+     * @param int $price
+     * @return $this
      */
-    public function setCost(int $cost): void
+    public function setPrice(int $price): Product
     {
-        $this->cost = $cost;
+        $this->price = $price;
+
+        return $this;
     }
 
     /**
@@ -67,41 +70,50 @@ class Shop extends Model
 
     /**
      * @param bool $availability
+     * @return $this
      */
-    public function setAvailability(bool $availability): void
+    public function setAvailability(bool $availability): Product
     {
         $this->availability = $availability;
+
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getProductType(): string
+    public function getEntityType(): string
     {
-        return $this->productType;
+        return $this->entityType;
     }
 
     /**
-     * @param string $productType
+     * @param string $entityType
+     * @return Product
      */
-    public function setProductType(string $productType): void
+    public function setEntityType(string $entityType): Product
     {
-        $this->productType = $productType;
+        $this->entityType = $entityType;
+
+        return $this;
     }
 
     /**
      * @return int
      */
-    public function getProductId(): int
+    public function getEntityId(): int
     {
-        return $this->productId;
+        return $this->entityId;
     }
 
     /**
-     * @param int $productId
+     * @param int $entityId
+     * @return Product
      */
-    public function setProductId(int $productId): void
+    public function setEntityId(int $entityId): Product
     {
-        $this->productId = $productId;
+        $this->entityId = $entityId;
+
+        return $this;
     }
 }

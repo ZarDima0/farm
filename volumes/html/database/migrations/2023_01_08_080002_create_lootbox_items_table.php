@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('shops', function (Blueprint $table) {
+        Schema::create('lootbox_items', function (Blueprint $table) {
             $table->id();
-            $table->integer('cost');
-            $table->boolean('availability');
-            $table->morphs('product');
+            $table->integer('lootbox_id');
+            $table->morphs('entity');
+            $table->integer('drop_chance');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shops');
+        Schema::dropIfExists('lootbox_items');
     }
 };
