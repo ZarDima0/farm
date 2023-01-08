@@ -32,6 +32,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::prefix('plants')
         ->group(function () {
             Route::get('', [PlantController::class, 'getList']);
+            Route::get('/search', [PlantController::class, 'search']);
         });
 
     Route::prefix('buildings')
